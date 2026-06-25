@@ -5,8 +5,8 @@
  * 数据来源：手动编写 + ESL Yes (eslyes.com) 公开素材改编
  */
 import { DatabaseSync } from "node:sqlite";
-import { existsSync, mkdirSync, readFileSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { existsSync, mkdirSync } from "node:fs";
+import { dirname } from "node:path";
 
 const dbPath = "./data/english-read.db";
 
@@ -724,6 +724,1022 @@ const articles: ArticleSeed[] = [
       { word: "ecosystem", translation: "生态系统", phonetic: "/ˈiːkoʊsɪstəm/" },
       { word: "pollution", translation: "污染", phonetic: "/pəˈluːʃn/" },
       { word: "sustainable", translation: "可持续的", phonetic: "/səˈsteɪnəbl/" },
+    ],
+  },
+
+  // ========== NEW PRIMARY (小学) ==========
+  {
+    title: "A Visit to Grandma",
+    summary:
+      "Emma and her brother Ben spend a wonderful weekend at their grandmother's farm in the countryside.",
+    level: "primary",
+    category: "story",
+    content:
+      '<p>Emma and Ben are very excited today. They are going to visit their grandmother in the countryside. Mom packs their bags with clothes, snacks, and a book about animals.</p>\n<p>The car ride takes two hours. Emma looks out the window. She sees green <mark class="vocabulary" data-word="field">fields</mark>, big cows, and pretty white sheep. Ben sleeps most of the way.</p>\n<p>Grandma is waiting at the gate with a big smile. "Welcome, my dears!" she says. She gives them <mark class="vocabulary" data-word="fresh">fresh</mark> cookies from the kitchen. The cookies are warm and taste wonderful.</p>\n<p>In the afternoon, Grandma takes them to the barn. There are two new baby chicks! "They hatched just yesterday," Grandma says. Emma holds one <mark class="vocabulary" data-word="gently">gently</mark> in her hands. It is soft and yellow.</p>\n<p>For dinner, they eat vegetables from Grandma\'s garden. After dinner, they sit by the fireplace. Grandma tells them a story about a brave little rabbit. Emma and Ben fall asleep listening to her <mark class="vocabulary" data-word="voice">voice</mark>.</p>',
+    questions: [
+      {
+        id: 1,
+        question: "Where does Grandma live?",
+        options: ["In the city", "In the countryside", "By the beach", "In the mountain"],
+        answer: "B",
+        explanation: "The story says 'visit their grandmother in the countryside.'",
+      },
+      {
+        id: 2,
+        question: "What does Grandma give the children when they arrive?",
+        options: ["Ice cream", "Fresh cookies", "Apple pie", "Chocolate"],
+        answer: "B",
+        explanation: "Grandma 'gives them fresh cookies from the kitchen.'",
+      },
+      {
+        id: 3,
+        question: "What did the children see in the barn?",
+        options: ["A new horse", "Two baby chicks", "A baby cow", "Three kittens"],
+        answer: "B",
+        explanation: "The story says 'There are two new baby chicks!'",
+      },
+      {
+        id: 4,
+        question: "What did they eat for dinner?",
+        options: ["Pizza", "Chicken", "Vegetables from Grandma's garden", "Fish"],
+        answer: "C",
+        explanation: "The story says 'they eat vegetables from Grandma's garden.'",
+      },
+    ],
+    words: [
+      { word: "field", translation: "田野", phonetic: "/fiːld/" },
+      { word: "fresh", translation: "新鲜的", phonetic: "/freʃ/" },
+      { word: "gently", translation: "温柔地；轻轻地", phonetic: "/ˈdʒentli/" },
+      { word: "voice", translation: "声音", phonetic: "/vɔɪs/" },
+      { word: "barn", translation: "谷仓", phonetic: "/bɑːrn/" },
+    ],
+  },
+  {
+    title: "The Zoo Day",
+    summary: "Class 2B goes on a field trip to the city zoo and learns about many amazing animals.",
+    level: "primary",
+    category: "story",
+    content:
+      '<p>Today is a special day for Class 2B. They are going to the <mark class="vocabulary" data-word="zoo">zoo</mark>! All the children are so happy. They wear their school hats and bring a water bottle.</p>\n<p>The first animal they see is the <mark class="vocabulary" data-word="elephant">elephant</mark>. It is very big! It swings its long nose and sprays water. All the children laugh and clap their hands.</p>\n<p>Next, they visit the <mark class="vocabulary" data-word="monkey">monkeys</mark>. The monkeys jump from tree to tree. They make funny faces. Tim says, "Look! That monkey is eating a banana just like me!"</p>\n<p>At lunchtime, they sit on the grass near the lake. They watch the <mark class="vocabulary" data-word="swan">swans</mark> swim. The swans are white and beautiful. Miss Lee tells them not to feed the animals.</p>\n<p>Before going home, they go to the gift shop. Anna buys a small <mark class="vocabulary" data-word="toy">toy</mark> panda. "This was the best day ever!" she says. Everyone agrees.</p>',
+    questions: [
+      {
+        id: 1,
+        question: "What is the first animal the children see?",
+        options: ["A monkey", "An elephant", "A lion", "A giraffe"],
+        answer: "B",
+        explanation: "The story says 'The first animal they see is the elephant.'",
+      },
+      {
+        id: 2,
+        question: "What do the monkeys do that makes children laugh?",
+        options: ["They dance", "They make funny faces", "They sing a song", "They eat ice cream"],
+        answer: "B",
+        explanation: "'They make funny faces.'",
+      },
+      {
+        id: 3,
+        question: "Where do they eat lunch?",
+        options: [
+          "In the classroom",
+          "On the grass near the lake",
+          "Inside a restaurant",
+          "Near the elephant",
+        ],
+        answer: "B",
+        explanation: "'they sit on the grass near the lake.'",
+      },
+      {
+        id: 4,
+        question: "What does Anna buy at the gift shop?",
+        options: ["A toy elephant", "A book", "A toy panda", "A hat"],
+        answer: "C",
+        explanation: "'Anna buys a small toy panda.'",
+      },
+    ],
+    words: [
+      { word: "zoo", translation: "动物园", phonetic: "/zuː/" },
+      { word: "elephant", translation: "大象", phonetic: "/ˈelɪfənt/" },
+      { word: "monkey", translation: "猴子", phonetic: "/ˈmʌŋki/" },
+      { word: "swan", translation: "天鹅", phonetic: "/swɒn/" },
+      { word: "toy", translation: "玩具", phonetic: "/tɔɪ/" },
+    ],
+  },
+  {
+    title: "Local School Wins Recycling Contest",
+    summary:
+      "Green Valley Primary School collected over 5,000 bottles and won first prize in the city-wide recycling competition.",
+    level: "primary",
+    category: "news",
+    content:
+      '<p>Last Friday, Green Valley Primary School won the city <mark class="vocabulary" data-word="recycle">recycling</mark> competition. The students collected over 5,000 plastic bottles in just one month. "I am so proud of everyone!" said the principal.</p>\n<p>The competition started in September. Every class had a special recycling box. Children brought plastic bottles from home and picked up bottles in the park. The class with the most bottles would win a <mark class="vocabulary" data-word="prize">prize</mark>.</p>\n<p>"It was fun and <mark class="vocabulary" data-word="important">important</mark>," said Kevin, age 9. "We learned that we can help the Earth by doing small things." His class collected 1,200 bottles — the highest in the school.</p>\n<p>Mayor Chen came to the school and gave them a big <mark class="vocabulary" data-word="certificate">certificate</mark>. "Young people like you can change the world," she said. The prize was a new set of books for the school library.</p>\n<p>The students also learned what happens to the bottles. They will be turned into new things like clothes and bags. The school plans to keep recycling and even start a <mark class="vocabulary" data-word="compost">compost</mark> project for food waste.</p>',
+    questions: [
+      {
+        id: 1,
+        question: "How many bottles did the school collect?",
+        options: ["500", "1,200", "Over 5,000", "10,000"],
+        answer: "C",
+        explanation: "'students collected over 5,000 plastic bottles.'",
+      },
+      {
+        id: 2,
+        question: "What was the prize for winning?",
+        options: [
+          "A trip to the zoo",
+          "New books for the library",
+          "A new playground",
+          "Free lunch for a year",
+        ],
+        answer: "B",
+        explanation: "The 'prize was a new set of books for the school library.'",
+      },
+      {
+        id: 3,
+        question: "Who came to give the certificate?",
+        options: ["The principal", "A teacher", "Mayor Chen", "A famous singer"],
+        answer: "C",
+        explanation: "'Mayor Chen came to the school and gave them a big certificate.'",
+      },
+      {
+        id: 4,
+        question: "What will the school start next?",
+        options: ["A garden", "A compost project", "A reading club", "A sports team"],
+        answer: "B",
+        explanation: "The school plans to 'start a compost project for food waste.'",
+      },
+    ],
+    words: [
+      { word: "recycle", translation: "回收", phonetic: "/ˌriːˈsaɪkl/" },
+      { word: "prize", translation: "奖品", phonetic: "/praɪz/" },
+      { word: "important", translation: "重要的", phonetic: "/ɪmˈpɔːrtnt/" },
+      { word: "certificate", translation: "证书", phonetic: "/sərˈtɪfɪkət/" },
+      { word: "compost", translation: "堆肥", phonetic: "/ˈkɒmpɒst/" },
+    ],
+  },
+  {
+    title: "The Little Artist",
+    summary:
+      "Lily discovers her love for painting and enters her first art contest at the local community center.",
+    level: "primary",
+    category: "story",
+    content:
+      '<p>Lily is six years old. She loves to draw. She draws on paper, on the wall, and sometimes on her hands! Her mom says, "Lily, use your <mark class="vocabulary" data-word="sketchbook">sketchbook</mark>, please."</p>\n<p>One day, Lily\'s teacher sees her drawing. "You are very <mark class="vocabulary" data-word="talented">talented</mark>," the teacher says. "There is an art contest at the community center. You should join!" Lily feels nervous but excited.</p>\n<p>Lily decides to paint a picture of her cat, Mittens. She uses many colors. The cat is orange with green eyes. She adds a blue sky and yellow <mark class="vocabulary" data-word="flower">flowers</mark> in the background. It takes her three days to finish.</p>\n<p>On the day of the contest, Lily sees many beautiful paintings. Her heart beats fast. The judge walks around and looks at every painting. Then he <mark class="vocabulary" data-word="announce">announces</mark> the winners.</p>\n<p>"Third place goes to... Lily Chen!" Lily cannot believe it. She runs to get her <mark class="vocabulary" data-word="ribbon">ribbon</mark>. Mom takes a picture. "I knew you could do it," Mom says, hugging her tight.</p>',
+    questions: [
+      {
+        id: 1,
+        question: "What does Lily love to do?",
+        options: ["Sing", "Dance", "Draw", "Run"],
+        answer: "C",
+        explanation: "'She loves to draw.'",
+      },
+      {
+        id: 2,
+        question: "What did Lily paint for the contest?",
+        options: ["A house", "Her cat Mittens", "A rainbow", "Her family"],
+        answer: "B",
+        explanation: "'decided to paint a picture of her cat, Mittens.'",
+      },
+      {
+        id: 3,
+        question: "What place did Lily win?",
+        options: ["First place", "Second place", "Third place", "No prize"],
+        answer: "C",
+        explanation: "The judge said 'Third place goes to... Lily Chen!'",
+      },
+      {
+        id: 4,
+        question: "How did Lily feel at the contest at first?",
+        options: ["Bored", "Nervous but excited", "Angry", "Sleepy"],
+        answer: "B",
+        explanation: "'Lily feels nervous but excited.'",
+      },
+    ],
+    words: [
+      { word: "sketchbook", translation: "素描本", phonetic: "/ˈsketʃbʊk/" },
+      { word: "talented", translation: "有天赋的", phonetic: "/ˈtæləntɪd/" },
+      { word: "flower", translation: "花", phonetic: "/ˈflaʊər/" },
+      { word: "announce", translation: "宣布", phonetic: "/əˈnaʊns/" },
+      { word: "ribbon", translation: "丝带；绶带", phonetic: "/ˈrɪbən/" },
+    ],
+  },
+  {
+    title: "Dolphin Rescue Team Saves Stranded Calf",
+    summary:
+      "Volunteers at Clearwater Beach worked together to rescue a baby dolphin that had been separated from its mother.",
+    level: "primary",
+    category: "news",
+    content:
+      '<p>Early Saturday morning, a young dolphin was found stranded on Clearwater Beach. The baby dolphin, called a <mark class="vocabulary" data-word="calf">calf</mark>, was only a few weeks old. It had been separated from its mother near the shore.</p>\n<p>Beachgoers called the local <mark class="vocabulary" data-word="rescue">rescue</mark> team. Volunteers arrived quickly. They wrapped the calf in wet towels to keep it cool. "We had to work fast," said team leader Sarah. "A baby dolphin cannot stay out of water for very long."</p>\n<p>The team carefully carried the calf to a special pool at the marine center. A doctor checked its health. The dolphin was tired but not hurt. Volunteers named him Sunny because he made <mark class="vocabulary" data-word="everyone">everyone</mark> smile.</p>\n<p>Meanwhile, a boat searched the ocean for Sunny\'s mother. After three hours, they found a group of dolphins swimming nearby. The team hoped one was Sunny\'s mom. On Sunday, they brought Sunny back to the <mark class="vocabulary" data-word="ocean">ocean</mark>. As soon as they released him, an adult dolphin swam to Sunny. They touched noses and swam away together.</p>\n<p>"It was a <mark class="vocabulary" data-word="perfect">perfect</mark> ending," said Sarah. "Knowing we helped a tiny life return home is why we do this work."</p>',
+    questions: [
+      {
+        id: 1,
+        question: "What is a baby dolphin called?",
+        options: ["A pup", "A calf", "A chick", "A cub"],
+        answer: "B",
+        explanation: "'The baby dolphin, called a calf.'",
+      },
+      {
+        id: 2,
+        question: "Why did volunteers wrap the calf in wet towels?",
+        options: ["To clean it", "To keep it cool", "To make it sleep", "To hide it from birds"],
+        answer: "B",
+        explanation: "'wrapped the calf in wet towels to keep it cool.'",
+      },
+      {
+        id: 3,
+        question: "What did they name the dolphin?",
+        options: ["Lucky", "Sunny", "Happy", "Blue"],
+        answer: "B",
+        explanation: "'named him Sunny because he made everyone smile.'",
+      },
+      {
+        id: 4,
+        question: "How did the rescue end?",
+        options: [
+          "Sunny stayed at the center",
+          "Sunny swam away with his mother",
+          "Sunny was sent to another beach",
+          "Sunny joined a group of fish",
+        ],
+        answer: "B",
+        explanation: "'they touched noses and swam away together.'",
+      },
+    ],
+    words: [
+      { word: "calf", translation: "幼崽", phonetic: "/kæf/" },
+      { word: "rescue", translation: "救援", phonetic: "/ˈreskjuː/" },
+      { word: "everyone", translation: "每个人", phonetic: "/ˈevriwʌn/" },
+      { word: "ocean", translation: "海洋", phonetic: "/ˈoʊʃn/" },
+      { word: "perfect", translation: "完美的", phonetic: "/ˈpɜːrfɪkt/" },
+    ],
+  },
+
+  // ========== NEW JUNIOR (初中) ==========
+  {
+    title: "The Lost Key",
+    summary:
+      "When Mia's grandmother gives her a mysterious old key, she embarks on an adventure to uncover a family secret hidden for decades.",
+    level: "junior",
+    category: "story",
+    content:
+      '<p>Mia was cleaning her grandmother\'s <mark class="vocabulary" data-word="attic">attic</mark> when she found a small wooden box hidden under an old blanket. Inside the box was a rusty silver key and a faded photograph of a house she had never seen before.</p>\n<p>"Grandma, what is this key for?" Mia asked. Her grandmother\'s eyes grew wide. "I haven\'t seen that in forty years," she said softly. "That key opens the garden shed of our old family home. We had to leave that house <mark class="vocabulary" data-word="suddenly">suddenly</mark> when I was just a girl."</p>\n<p>Grandma explained that during a big storm, the family had to <mark class="vocabulary" data-word="evacuate">evacuate</mark>. They never went back. "I always wondered what we left behind," she said. "There was a diary I kept, full of my childhood dreams."</p>\n<p>The next weekend, Mia and her father drove three hours to the old house. It was abandoned but still standing. With the key in her hand, Mia walked to the garden shed. The lock was old but the key still fit <mark class="vocabulary" data-word="perfectly">perfectly</mark>.</p>\n<p>Inside the dusty shed, Mia found a small metal box. She opened it and discovered her grandmother\'s diary, along with old letters and a gold locket. When Mia brought everything home, Grandma cried happy tears. "You\'ve brought back my <mark class="vocabulary" data-word="memory">memories</mark>," she whispered.</p>',
+    questions: [
+      {
+        id: 1,
+        question: "Where did Mia find the wooden box?",
+        options: [
+          "Under her bed",
+          "In the garden",
+          "In her grandmother's attic",
+          "In the basement",
+        ],
+        answer: "C",
+        explanation:
+          "'Mia was cleaning her grandmother's attic when she found a small wooden box.'",
+      },
+      {
+        id: 2,
+        question: "What did the key open?",
+        options: ["A treasure chest", "A garden shed", "A front door", "A mailbox"],
+        answer: "B",
+        explanation: "'That key opens the garden shed of our old family home.'",
+      },
+      {
+        id: 3,
+        question: "Why did the family leave the old house?",
+        options: [
+          "They moved to a new city",
+          "There was a big storm",
+          "The house was sold",
+          "They went on vacation",
+        ],
+        answer: "B",
+        explanation: "'during a big storm, the family had to evacuate.'",
+      },
+      {
+        id: 4,
+        question: "What did Mia find in the metal box?",
+        options: [
+          "Money and jewels",
+          "A diary, old letters, and a gold locket",
+          "Only photographs",
+          "An old map",
+        ],
+        answer: "B",
+        explanation: "'her grandmother's diary, along with old letters and a gold locket.'",
+      },
+    ],
+    words: [
+      { word: "attic", translation: "阁楼", phonetic: "/ˈætɪk/" },
+      { word: "suddenly", translation: "突然地", phonetic: "/ˈsʌdənli/" },
+      { word: "evacuate", translation: "撤离；疏散", phonetic: "/ɪˈvækjueɪt/" },
+      { word: "perfectly", translation: "完美地", phonetic: "/ˈpɜːrfɪktli/" },
+      { word: "memory", translation: "回忆；记忆", phonetic: "/ˈmeməri/" },
+    ],
+  },
+  {
+    title: "A Friend from Across the Ocean",
+    summary:
+      "When a Japanese exchange student arrives at Leo's school, he discovers that friendship can bridge any cultural gap.",
+    level: "junior",
+    category: "story",
+    content:
+      '<p>Leo was nervous on the first day of the new term. His teacher announced that a new student from Japan would join their class. "His name is Hiroshi, and he is still learning English," Mrs. Baker said. "Please make him feel <mark class="vocabulary" data-word="welcome">welcome</mark>."</p>\n<p>Hiroshi was quiet and shy. During lunch, he sat alone. Leo remembered how he felt when his family moved to this city two years ago. He knew what it was like to feel like an <mark class="vocabulary" data-word="outsider">outsider</mark>. He walked over and sat down next to Hiroshi.</p>\n<p>"Hi, I\'m Leo. Do you like soccer?" he asked. Hiroshi\'s eyes lit up. "Soccer! Yes!" he said. Although his English was simple, they found a way to <mark class="vocabulary" data-word="communicate">communicate</mark>. They drew pictures on napkins, used hand gestures, and laughed at their mistakes.</p>\n<p>Over the weeks, Leo helped Hiroshi with English, and Hiroshi taught Leo how to do origami. "This is a <mark class="vocabulary" data-word="crane">crane</mark>," Hiroshi explained, folding paper carefully. "In Japan, we believe if you fold a thousand cranes, your wish comes true."</p>\n<p>At the end of the term, the class had a cultural fair. Hiroshi and Leo presented about both American and Japanese traditions together. "The best way to learn about the world," Leo said, "is to make a friend from a different place." Hiroshi smiled and added, "<mark class="vocabulary" data-word="friendship">Friendship</mark> has no borders."</p>',
+    questions: [
+      {
+        id: 1,
+        question: "Where did the new student come from?",
+        options: ["China", "Japan", "Korea", "India"],
+        answer: "B",
+        explanation: "'a new student from Japan would join their class.'",
+      },
+      {
+        id: 2,
+        question: "Why did Leo go talk to Hiroshi?",
+        options: [
+          "His teacher told him to",
+          "He remembered how it felt to be new",
+          "Hiroshi was his neighbor",
+          "He wanted to learn Japanese",
+        ],
+        answer: "B",
+        explanation:
+          "'He remembered how he felt when his family moved to this city two years ago.'",
+      },
+      {
+        id: 3,
+        question: "What did Hiroshi teach Leo?",
+        options: ["Cooking", "Origami", "Karate", "Calligraphy"],
+        answer: "B",
+        explanation: "'Hiroshi taught Leo how to do origami.'",
+      },
+      {
+        id: 4,
+        question: "What is the meaning of folding a thousand cranes?",
+        options: [
+          "It brings good luck",
+          "Your wish comes true",
+          "You become rich",
+          "You find true love",
+        ],
+        answer: "B",
+        explanation: "'if you fold a thousand cranes, your wish comes true.'",
+      },
+      {
+        id: 5,
+        question: "What did Hiroshi say about friendship at the cultural fair?",
+        options: [
+          "Friendship is difficult",
+          "Friendship has no borders",
+          "Friendship takes time",
+          "Friendship needs money",
+        ],
+        answer: "B",
+        explanation: "'Hiroshi smiled and added, \"Friendship has no borders.\"'",
+      },
+    ],
+    words: [
+      { word: "welcome", translation: "受欢迎的", phonetic: "/ˈwelkəm/" },
+      { word: "outsider", translation: "局外人", phonetic: "/ˌaʊtˈsaɪdər/" },
+      { word: "communicate", translation: "交流", phonetic: "/kəˈmjuːnɪkeɪt/" },
+      { word: "crane", translation: "鹤；千纸鹤", phonetic: "/kreɪn/" },
+      { word: "friendship", translation: "友谊", phonetic: "/ˈfrendʃɪp/" },
+    ],
+  },
+  {
+    title: "Teen Coder Creates Free Learning App",
+    summary:
+      "A 15-year-old programmer from Kenya built an app that helps students in rural areas access free educational materials using basic phones.",
+    level: "junior",
+    category: "news",
+    content:
+      '<p>A 15-year-old teenager from Kenya has built a <mark class="vocabulary" data-word="mobile">mobile</mark> app that allows students in rural areas to learn math, science, and English for free. James Omondi, a high school student from a small village, taught himself programming by watching YouTube videos at an internet cafe.</p>\n<p>"In my village, many students don\'t have textbooks or computers," James explained. "But almost every family has at least one phone." His app, called "Study Lite," works on basic phones that don\'t need an internet <mark class="vocabulary" data-word="connection">connection</mark>. It uses very little data and storage.</p>\n<p>The app offers short lessons, simple quizzes, and a <mark class="vocabulary" data-word="dictionary">dictionary</mark>. Teachers in the area helped James write the content. The first version had only math lessons, but now it covers five subjects. Over 10,000 students in three countries have downloaded it.</p>\n<p>Last month, James won the African Youth in Tech award and received a $5,000 grant. He plans to use the money to add more languages and hire <mark class="vocabulary" data-word="translator">translators</mark>. "Education should not depend on where you were born," he said. "<mark class="vocabulary" data-word="technology">Technology</mark> can make it available to everyone."</p>',
+    questions: [
+      {
+        id: 1,
+        question: "How did James learn programming?",
+        options: ["At school", "From his parents", "By watching YouTube videos", "From a textbook"],
+        answer: "C",
+        explanation: "'taught himself programming by watching YouTube videos.'",
+      },
+      {
+        id: 2,
+        question: "What makes James's app special?",
+        options: [
+          "It needs fast internet",
+          "It works on basic phones without internet",
+          "It is only for computers",
+          "It costs $100 to download",
+        ],
+        answer: "B",
+        explanation: "'works on basic phones that don't need an internet connection.'",
+      },
+      {
+        id: 3,
+        question: "How many students have downloaded the app?",
+        options: ["1,000", "5,000", "Over 10,000", "50,000"],
+        answer: "C",
+        explanation: "'Over 10,000 students in three countries have downloaded it.'",
+      },
+      {
+        id: 4,
+        question: "What will James do with the grant money?",
+        options: [
+          "Buy a new phone",
+          "Add more languages and hire translators",
+          "Travel to other countries",
+          "Build a school",
+        ],
+        answer: "B",
+        explanation: "'He plans to use the money to add more languages and hire translators.'",
+      },
+    ],
+    words: [
+      { word: "mobile", translation: "移动的", phonetic: "/ˈmoʊbl/" },
+      { word: "connection", translation: "连接", phonetic: "/kəˈnekʃn/" },
+      { word: "dictionary", translation: "词典", phonetic: "/ˈdɪkʃəneri/" },
+      { word: "translator", translation: "翻译者", phonetic: "/trænzˈleɪtər/" },
+      { word: "technology", translation: "技术", phonetic: "/tekˈnɒlədʒi/" },
+    ],
+  },
+  {
+    title: "The Marathon Boy",
+    summary:
+      "Twelve-year-old David, born with a weak leg, proves everyone wrong by finishing a 5K charity run after months of training.",
+    level: "junior",
+    category: "story",
+    content:
+      '<p>David was born with a weak left leg. When he was little, doctors said he might never run like other children. But David never stopped <mark class="vocabulary" data-word="believe">believing</mark> in himself.</p>\n<p>Last year, his school announced a charity run to raise money for the children\'s hospital. David decided to join. His classmates were surprised. "Are you sure?" his best friend Carlos asked. David nodded. "I want to try.<mark class="vocabulary" data-word="try">"</mark></p>\n<p>For six months, David trained every morning before school. He ran slowly at first. Some days his leg hurt, and he wanted to give up. But his father ran beside him every day. "One step at a time, son," his father would say. Slowly, David\'s leg grew <mark class="vocabulary" data-word="stronger">stronger</mark>.</p>\n<p>On the day of the run, over 500 people joined. David started at the back. He ran slowly and <mark class="vocabulary" data-word="steadily">steadily</mark>. Many runners passed him, but David kept going. At the finish line, the crowd was waiting. When David crossed, everyone cheered louder than they had for the first-place runner.</p>\n<p>"You don\'t have to be the fastest," David said, catching his breath. "You just have to not give up." He raised $800 for the hospital that day — more than anyone else in his school.</p>',
+    questions: [
+      {
+        id: 1,
+        question: "What was David's challenge?",
+        options: [
+          "He couldn't see well",
+          "He was born with a weak leg",
+          "He was afraid of crowds",
+          "He had a weak heart",
+        ],
+        answer: "B",
+        explanation: "'David was born with a weak left leg.'",
+      },
+      {
+        id: 2,
+        question: "How long did David train for the run?",
+        options: ["One month", "Three months", "Six months", "One year"],
+        answer: "C",
+        explanation: "'For six months, David trained every morning before school.'",
+      },
+      {
+        id: 3,
+        question: "Who ran with David during training?",
+        options: ["His mother", "His father", "His friend Carlos", "His teacher"],
+        answer: "B",
+        explanation: "'his father ran beside him every day.'",
+      },
+      {
+        id: 4,
+        question: "How much money did David raise?",
+        options: ["$200", "$500", "$800", "$1,000"],
+        answer: "C",
+        explanation: "'He raised $800 for the hospital that day.'",
+      },
+    ],
+    words: [
+      { word: "believe", translation: "相信", phonetic: "/bɪˈliːv/" },
+      { word: "try", translation: "尝试", phonetic: "/traɪ/" },
+      { word: "stronger", translation: "更强的", phonetic: "/ˈstrɒŋər/" },
+      { word: "steadily", translation: "稳定地", phonetic: "/ˈstedəli/" },
+      { word: "charity", translation: "慈善", phonetic: "/ˈtʃærəti/" },
+    ],
+  },
+  {
+    title: "NASA Announces First Student Experiment on Mars Mission",
+    summary:
+      "A high school science club's plant-growth experiment has been selected to fly on the next NASA mission to Mars.",
+    level: "junior",
+    category: "news",
+    content:
+      '<p>NASA has chosen a science <mark class="vocabulary" data-word="experiment">experiment</mark> designed by high school students to travel on its next Mars mission. The experiment, created by the Space Club at Lincoln High School in Colorado, will test whether certain plants can grow in Martian soil.</p>\n<p>"We entered the NASA competition just for fun," said club leader Maria Gonzalez, 16. "We never expected to win." The team spent eight months designing a small growing chamber that fits in a shoebox. It uses LED lights and a water recycling system. The <mark class="vocabulary" data-word="chamber">chamber</mark> will be controlled remotely from Earth.</p>\n<p>The winning experiment beat over 800 entries from 45 countries. NASA scientists were impressed by the team\'s creative <mark class="vocabulary" data-word="solution">solution</mark> to the problem of limited space and resources on a spacecraft.</p>\n<p>The Mars mission is scheduled to launch in two years. Maria and her team will watch the launch from mission control. "This is a <mark class="vocabulary" data-word="dream">dream</mark> come true," she said. "We want to show that young people can make a real <mark class="vocabulary" data-word="contribution">contribution</mark> to space exploration."</p>',
+    questions: [
+      {
+        id: 1,
+        question: "What will the students' experiment test?",
+        options: [
+          "If there is water on Mars",
+          "If plants can grow in Martian soil",
+          "If humans can breathe on Mars",
+          "If there are bacteria on Mars",
+        ],
+        answer: "B",
+        explanation: "'test whether certain plants can grow in Martian soil.'",
+      },
+      {
+        id: 2,
+        question: "How long did the students work on the experiment?",
+        options: ["One month", "Three months", "Six months", "Eight months"],
+        answer: "D",
+        explanation: "'The team spent eight months designing.'",
+      },
+      {
+        id: 3,
+        question: "How many entries did they beat?",
+        options: ["100", "400", "Over 800", "Over 2,000"],
+        answer: "C",
+        explanation: "'beat over 800 entries from 45 countries.'",
+      },
+      {
+        id: 4,
+        question: "When will the mission launch?",
+        options: ["This year", "In two years", "In five years", "In ten years"],
+        answer: "B",
+        explanation: "'scheduled to launch in two years.'",
+      },
+    ],
+    words: [
+      { word: "experiment", translation: "实验", phonetic: "/ɪkˈsperɪmənt/" },
+      { word: "chamber", translation: "舱室", phonetic: "/ˈtʃeɪmbər/" },
+      { word: "solution", translation: "解决方案", phonetic: "/səˈluːʃn/" },
+      { word: "dream", translation: "梦想", phonetic: "/driːm/" },
+      { word: "contribution", translation: "贡献", phonetic: "/ˌkɒntrɪˈbjuːʃn/" },
+    ],
+  },
+  {
+    title: "The Night the Lights Went Out",
+    summary:
+      "A sudden power outage on Emily's street leads to a night of unexpected adventure, storytelling, and a new understanding of her neighbors.",
+    level: "junior",
+    category: "story",
+    content:
+      '<p>It was a cold winter evening when all the lights on Maple Street suddenly went out. Emily was doing her homework when her computer screen went black. "Not again," she groaned. Their neighborhood had power problems before, but this time was different.</p>\n<p>Her mom lit candles and a gas <mark class="vocabulary" data-word="lantern">lantern</mark>. Without television or Wi-Fi, the family didn\'t know what to do. "Let\'s go outside and see what\'s happening," Dad suggested. Emily put on her coat and followed.</p>\n<p>Outside, the street looked magical. The snow reflected the moonlight, and the houses stood dark and <mark class="vocabulary" data-word="silent">silent</mark>. Then Emily saw lights flickering at the end of the street. Mr. Johnson, their elderly neighbor, had built a small fire in his backyard and was sitting alone.</p>\n<p>Soon, several families had gathered around the fire. Someone brought marshmallows, someone else brought a guitar. Mrs. Patel told stories about her childhood in India, where power outages were <mark class="vocabulary" data-word="common">common</mark> but people always found ways to enjoy themselves. Mr. Johnson played old songs on his harmonica.</p>\n<p>At 11 PM, the power came back. But strangely, nobody wanted to go inside. "This is the best night we\'ve had in months," Emily\'s mom said. Emily looked around at her <mark class="vocabulary" data-word="neighbors">neighbors</mark>\' faces, lit by the fire, and realized she had never really talked to most of them before. Maybe the blackout wasn\'t such a bad thing after all.</p>',
+    questions: [
+      {
+        id: 1,
+        question: "What caused the events of the story?",
+        options: ["A big storm", "A power outage", "A fire", "A flood"],
+        answer: "B",
+        explanation: "'all the lights on Maple Street suddenly went out.'",
+      },
+      {
+        id: 2,
+        question: "Who first built the fire?",
+        options: ["Emily's dad", "Mr. Johnson", "Mrs. Patel", "Emily"],
+        answer: "B",
+        explanation: "'Mr. Johnson, their elderly neighbor, had built a small fire.'",
+      },
+      {
+        id: 3,
+        question: "What did Mrs. Patel share with everyone?",
+        options: [
+          "Food from her kitchen",
+          "Stories about India",
+          "A new movie",
+          "Her collection of candles",
+        ],
+        answer: "B",
+        explanation: "'Mrs. Patel told stories about her childhood in India.'",
+      },
+      {
+        id: 4,
+        question: "What did Emily realize at the end?",
+        options: [
+          "She wanted to move away",
+          "She had never really talked to most of her neighbors before",
+          "She preferred the dark",
+          "She missed her computer",
+        ],
+        answer: "B",
+        explanation: "'she realized she had never really talked to most of them before.'",
+      },
+    ],
+    words: [
+      { word: "lantern", translation: "灯笼；提灯", phonetic: "/ˈlæntərn/" },
+      { word: "silent", translation: "安静的", phonetic: "/ˈsaɪlənt/" },
+      { word: "common", translation: "常见的", phonetic: "/ˈkɒmən/" },
+      { word: "neighbors", translation: "邻居", phonetic: "/ˈneɪbərz/" },
+      { word: "flickering", translation: "闪烁的", phonetic: "/ˈflɪkərɪŋ/" },
+    ],
+  },
+  {
+    title: "World's First Plastic-Eating Enzyme Improved by Scientists",
+    summary:
+      "International team of researchers has engineered a super-enzyme that breaks down plastic bottles six times faster, offering hope for solving plastic pollution.",
+    level: "junior",
+    category: "news",
+    content:
+      '<p>Scientists in Britain and the United States have created a "super-enzyme" that can break down plastic bottles six times faster than before. The discovery could offer a powerful new <mark class="vocabulary" data-word="weapon">weapon</mark> in the fight against plastic pollution.</p>\n<p>Plastic takes hundreds of years to break down naturally. Every minute, one million plastic bottles are sold around the world, and most end up in landfills or oceans. The new enzyme, however, can <mark class="vocabulary" data-word="digest">digest</mark> the plastic and turn it back into its original chemical parts.</p>\n<p>"It\'s like taking a Lego house apart back into individual bricks," explained Dr. Sarah Chen, one of the lead researchers. "Those bricks can then be used to build new, high-quality plastic products." This means plastic could be <mark class="vocabulary" data-word="recycled">recycled</mark> endlessly without losing quality.</p>\n<p>The team combined two different enzymes — one that was originally found in bacteria living in a Japanese recycling plant. By linking them together, they created a <mark class="vocabulary" data-word="super">super</mark>-enzyme that works much faster than either one alone.</p>\n<p>"We are still in the early stages," Dr. Chen added. "But the goal is to make this technology available on an <mark class="vocabulary" data-word="industrial">industrial</mark> scale in the next five to ten years. If we succeed, it could fundamentally change how we deal with plastic waste."</p>',
+    questions: [
+      {
+        id: 1,
+        question: "How much faster does the new super-enzyme break down plastic?",
+        options: ["Two times", "Three times", "Six times", "Ten times"],
+        answer: "C",
+        explanation: "'six times faster than before.'",
+      },
+      {
+        id: 2,
+        question: "How many plastic bottles are sold every minute?",
+        options: ["100,000", "500,000", "One million", "Two million"],
+        answer: "C",
+        explanation: "'Every minute, one million plastic bottles are sold.'",
+      },
+      {
+        id: 3,
+        question: "What does Dr. Chen compare the process to?",
+        options: [
+          "Making a cake",
+          "Taking apart a Lego house",
+          "Building a bridge",
+          "Painting a picture",
+        ],
+        answer: "B",
+        explanation: "'It's like taking a Lego house apart back into individual bricks.'",
+      },
+      {
+        id: 4,
+        question: "Where was one of the original enzymes found?",
+        options: ["In a forest", "In the ocean", "In a Japanese recycling plant", "In a desert"],
+        answer: "C",
+        explanation: "'found in bacteria living in a Japanese recycling plant.'",
+      },
+    ],
+    words: [
+      { word: "weapon", translation: "武器", phonetic: "/ˈwepən/" },
+      { word: "digest", translation: "消化；分解", phonetic: "/daɪˈdʒest/" },
+      { word: "recycled", translation: "回收的", phonetic: "/ˌriːˈsaɪkld/" },
+      { word: "super", translation: "超级的", phonetic: "/ˈsuːpər/" },
+      { word: "industrial", translation: "工业的", phonetic: "/ɪnˈdʌstriəl/" },
+    ],
+  },
+
+  // ========== NEW SENIOR (高中) ==========
+  {
+    title: "The Final Speech",
+    summary:
+      "A shy high school senior must deliver a graduation speech after the original speaker falls ill, confronting her deepest fear of public speaking.",
+    level: "senior",
+    category: "story",
+    content:
+      '<p>Olivia had always been the quiet one. In class, she sat in the back row. She never raised her hand, even when she knew the answer. Speaking in front of others made her heart race and her palms sweat. So when the principal called her name — "Olivia, you\'ll be giving the graduation speech" — she felt like the floor had <mark class="vocabulary" data-word="disappeared">disappeared</mark> beneath her.</p>\n<p>The original speaker, the class president, had come down with a bad fever. Olivia was the <mark class="vocabulary" data-word="valedictorian">valedictorian</mark>, the student with the highest grades. By tradition, she was next in line. She wanted to refuse, but her teacher Mrs. Kim pulled her aside. "Olivia, you have earned this. Your voice <mark class="vocabulary" data-word="deserves">deserves</mark> to be heard."</p>\n<p>For two weeks, Olivia wrote and rewrote her speech. She practiced in front of her mirror, in front of her cat, and in front of her mother. Each time, her voice shook. But she kept going. And something strange happened — the more she practiced, the less scared she felt.</p>\n<p>On graduation day, Olivia stood behind the curtain, holding her note cards. Her hands were trembling. Then she remembered something her grandfather used to say: "<mark class="vocabulary" data-word="courage">Courage</mark> is not the absence of fear, but the decision that something else is more important."</p>\n<p>She walked onto the stage. The lights were bright. Hundreds of faces looked up at her. She took a deep breath. "Good afternoon, everyone," she began. Her voice was steady. She spoke about their years together, the challenges they overcame, and the future waiting for them. When she finished, the audience stood up and <mark class="vocabulary" data-word="applauded">applauded</mark>. Olivia walked off the stage knowing she would never be the quiet girl in the back row again.</p>',
+    questions: [
+      {
+        id: 1,
+        question: "Why was Olivia chosen to give the graduation speech?",
+        options: [
+          "She was the most popular student",
+          "She was the valedictorian",
+          "She volunteered",
+          "The principal picked randomly",
+        ],
+        answer: "B",
+        explanation: "'Olivia was the valedictorian, the student with the highest grades.'",
+      },
+      {
+        id: 2,
+        question: "Who originally was supposed to give the speech?",
+        options: ["The principal", "The class president", "Mrs. Kim", "Olivia's best friend"],
+        answer: "B",
+        explanation: "'The original speaker, the class president, had come down with a bad fever.'",
+      },
+      {
+        id: 3,
+        question: "What did Olivia's grandfather say about courage?",
+        options: [
+          "Courage means never being afraid",
+          "Courage is not the absence of fear",
+          "Courage comes from strength",
+          "Courage is for soldiers",
+        ],
+        answer: "B",
+        explanation:
+          "'Courage is not the absence of fear, but the decision that something else is more important.'",
+      },
+      {
+        id: 4,
+        question: "How did the audience react to Olivia's speech?",
+        options: [
+          "They stayed quiet",
+          "They stood up and applauded",
+          "They walked out",
+          "They started talking",
+        ],
+        answer: "B",
+        explanation: "'the audience stood up and applauded.'",
+      },
+    ],
+    words: [
+      { word: "disappeared", translation: "消失", phonetic: "/ˌdɪsəˈpɪrd/" },
+      { word: "valedictorian", translation: "毕业致辞代表", phonetic: "/ˌvælɪdɪkˈtɔːriən/" },
+      { word: "deserves", translation: "值得；应得", phonetic: "/dɪˈzɜːrvz/" },
+      { word: "courage", translation: "勇气", phonetic: "/ˈkɜːrɪdʒ/" },
+      { word: "applauded", translation: "鼓掌", phonetic: "/əˈplɔːdɪd/" },
+    ],
+  },
+  {
+    title: "The Secret of the Old Lighthouse",
+    summary:
+      "While on a summer trip to a coastal town, three teenagers discover a hidden message in an abandoned lighthouse that leads them to a century-old treasure.",
+    level: "senior",
+    category: "story",
+    content:
+      '<p>The old lighthouse had stood on the cliffs for over a hundred years. Locals said it was haunted, but Jake, Maya, and Aiden didn\'t believe in ghosts. They were more interested in the <mark class="vocabulary" data-word="rumor">rumor</mark> that the lighthouse keeper had hidden something valuable before disappearing in 1923.</p>\n<p>It was the last week of summer vacation, and the three friends had nothing better to do. They climbed the rocky path to the lighthouse, carrying flashlights and a crowbar. The iron door was rusted but not locked. Inside, the air was damp and smelled of salt and old wood.</p>\n<p>They searched for hours. Maya was ready to give up when she noticed something strange — one of the bricks near the fireplace had different <mark class="vocabulary" data-word="carving">carvings</mark> on it. She pushed it, and the brick moved. Behind it was a small compartment with a metal box.</p>\n<p>The box contained a leather-bound journal and a hand-drawn map. The journal belonged to Captain William Hart, the lighthouse keeper. His final entry described a shipment of gold coins that was supposed to arrive by ship but was lost in a storm. Captain Hart had managed to <mark class="vocabulary" data-word="recover">recover</mark> some of the gold and hid it in a cave beneath the lighthouse.</p>\n<p>Following the map, the three friends found a narrow tunnel hidden behind the lighthouse\'s basement wall. It led down to a small cave by the sea. There, buried under a pile of stones, they found a <mark class="vocabulary" data-word="chest">chest</mark> containing 47 gold coins and a letter from Captain Hart.</p>\n<p>The letter read: "To whoever finds this — these coins were meant for the town\'s orphanage. The storm took the ship, but I saved what I could. Please use this treasure to help the children, as I once was." The three friends looked at each other. Sometimes, the real treasure wasn\'t gold — it was the <mark class="vocabulary" data-word="legacy">legacy</mark> of kindness someone left behind.</p>',
+    questions: [
+      {
+        id: 1,
+        question: "When did the lighthouse keeper disappear?",
+        options: ["1890", "1923", "1945", "1960"],
+        answer: "B",
+        explanation:
+          "'the lighthouse keeper had hidden something valuable before disappearing in 1923.'",
+      },
+      {
+        id: 2,
+        question: "Who found the hidden compartment?",
+        options: ["Jake", "Maya", "Aiden", "All three together"],
+        answer: "B",
+        explanation: "'Maya was ready to give up when she noticed something strange.'",
+      },
+      {
+        id: 3,
+        question: "What did Captain Hart want the gold to be used for?",
+        options: [
+          "His family",
+          "The town's orphanage",
+          "Building a new lighthouse",
+          "The government",
+        ],
+        answer: "B",
+        explanation: "'these coins were meant for the town's orphanage.'",
+      },
+      {
+        id: 4,
+        question: "What was the 'real treasure' according to the story?",
+        options: [
+          "The gold coins",
+          "The leather journal",
+          "The legacy of kindness",
+          "The hidden cave",
+        ],
+        answer: "C",
+        explanation:
+          "'the real treasure wasn't gold — it was the legacy of kindness someone left behind.'",
+      },
+    ],
+    words: [
+      { word: "rumor", translation: "谣言；传闻", phonetic: "/ˈruːmər/" },
+      { word: "carving", translation: "雕刻", phonetic: "/ˈkɑːrvɪŋ/" },
+      { word: "recover", translation: "找回；恢复", phonetic: "/rɪˈkʌvər/" },
+      { word: "chest", translation: "箱子", phonetic: "/tʃest/" },
+      { word: "legacy", translation: "遗产；遗留", phonetic: "/ˈleɡəsi/" },
+    ],
+  },
+  {
+    title: "Electric Airplane Completes First Cross-Country Flight",
+    summary:
+      "A fully electric passenger plane has successfully flown 1,500 kilometers across the United States, marking a major milestone in sustainable aviation.",
+    level: "senior",
+    category: "news",
+    content:
+      '<p>An all-electric passenger plane has completed the longest flight ever made by a battery-powered aircraft, traveling 1,500 kilometers from Los Angeles to Seattle without using a single drop of fuel. The milestone is being celebrated as a turning point for <mark class="vocabulary" data-word="sustainable">sustainable</mark> aviation.</p>\n<p>The aircraft, named "Albatross One," was developed by a California-based startup called AeroGreen. It carries 19 passengers and runs entirely on high-density lithium-sulfur batteries. The flight lasted just over four hours and produced zero carbon <mark class="vocabulary" data-word="emissions">emissions</mark>.</p>\n<p>"This proves that electric flight is not just a concept for the distant future," said Captain Lisa Park, who piloted the historic journey. "It is happening now." Aviation currently accounts for about 2.5% of global carbon emissions, and the industry has been under increasing pressure to find cleaner solutions.</p>\n<p>However, significant challenges remain. The batteries required for the flight weigh nearly two tons, limiting the aircraft\'s capacity. Recharging takes several hours, which is far longer than <mark class="vocabulary" data-word="refueling">refueling</mark> a traditional plane.</p>\n<p>Experts believe that electric planes will initially serve short- and medium-distance routes — flights under 2,000 kilometers — which account for about half of all air travel. "The technology will improve <mark class="vocabulary" data-word="rapidly">rapidly</mark>," said Dr. James Liu, an aerospace engineer at MIT. "In ten years, I expect electric aircraft to handle most domestic flights."</p>',
+    questions: [
+      {
+        id: 1,
+        question: "How far did the electric plane fly?",
+        options: ["500 km", "1,000 km", "1,500 km", "2,000 km"],
+        answer: "C",
+        explanation: "'traveling 1,500 kilometers from Los Angeles to Seattle.'",
+      },
+      {
+        id: 2,
+        question: "How many passengers can the aircraft carry?",
+        options: ["9", "19", "29", "50"],
+        answer: "B",
+        explanation: "'It carries 19 passengers.'",
+      },
+      {
+        id: 3,
+        question: "What percentage of global carbon emissions comes from aviation?",
+        options: ["1%", "2.5%", "5%", "10%"],
+        answer: "B",
+        explanation: "'about 2.5% of global carbon emissions.'",
+      },
+      {
+        id: 4,
+        question: "What routes will electric planes most likely serve first?",
+        options: [
+          "International flights",
+          "Flights under 2,000 km",
+          "Flights over oceans",
+          "Cargo flights",
+        ],
+        answer: "B",
+        explanation: "'serve short- and medium-distance routes — flights under 2,000 kilometers.'",
+      },
+    ],
+    words: [
+      { word: "sustainable", translation: "可持续的", phonetic: "/səˈsteɪnəbl/" },
+      { word: "emissions", translation: "排放物", phonetic: "/ɪˈmɪʃnz/" },
+      { word: "refueling", translation: "加油", phonetic: "/ˌriːˈfjuːəlɪŋ/" },
+      { word: "rapidly", translation: "迅速地", phonetic: "/ˈræpɪdli/" },
+      { word: "aviation", translation: "航空", phonetic: "/ˌeɪviˈeɪʃn/" },
+    ],
+  },
+  {
+    title: "The Chess Master's Student",
+    summary:
+      "A retired chess grandmaster reluctantly agrees to train a troubled teenager, and in the process, both of their lives are transformed.",
+    level: "senior",
+    category: "story",
+    content:
+      '<p>Mr. Volkov was 72 years old and had not touched a chess piece in five years. After losing the world championship match in 1985, he had retreated from public life. He spent his days in a small apartment, reading old books and <mark class="vocabulary" data-word="ignoring">ignoring</mark> the world outside.</p>\n<p>One afternoon, a social worker knocked on his door with a 15-year-old boy named Daniel. The boy had been in trouble — fighting at school, skipping classes, and running away from home. "He needs something to focus on," the social worker said. "We heard you were once the best chess player in the country."</p>\n<p>Mr. Volkov wanted to say no. But when he looked at Daniel, he saw something familiar — the same anger and <mark class="vocabulary" data-word="restlessness">restlessness</mark> he had felt as a young man growing up in a poor neighborhood. "Come back tomorrow at 4 PM," he said quietly.</p>\n<p>At first, Daniel was <mark class="vocabulary" data-word="impatient">impatient</mark>. He wanted to learn the most complex strategies immediately. But Mr. Volkov made him study the basics for weeks — how pawns move, how to control the center, the importance of patience. "Chess is like life," the old man said. "You cannot skip the hard parts."</p>\n<p>Months passed. Daniel stopped getting into fights. His grades improved. And Mr. Volkov began to smile again. At the city\'s youth chess tournament, Daniel finished third. It wasn\'t first place, but when he looked at Mr. Volkov in the crowd, the old man was <mark class="vocabulary" data-word="applauding">applauding</mark> with tears in his eyes.</p>\n<p>"You taught me chess," Daniel said afterward. "But you also taught me how to be <mark class="vocabulary" data-word="patient">patient</mark>, how to think before acting, and how to lose with dignity." Mr. Volkov placed a hand on the boy\'s shoulder. "And you reminded me that it is never too late to matter to someone."</p>',
+    questions: [
+      {
+        id: 1,
+        question: "Why had Mr. Volkov stopped playing chess?",
+        options: [
+          "He was too old",
+          "He lost the world championship",
+          "He got sick",
+          "He moved to another country",
+        ],
+        answer: "B",
+        explanation:
+          "'After losing the world championship match in 1985, he had retreated from public life.'",
+      },
+      {
+        id: 2,
+        question: "What did the social worker hope chess would do for Daniel?",
+        options: [
+          "Make him rich",
+          "Give him something to focus on",
+          "Get him into college",
+          "Teach him math",
+        ],
+        answer: "B",
+        explanation: "'He needs something to focus on.'",
+      },
+      {
+        id: 3,
+        question: "What did Mr. Volkov teach Daniel first?",
+        options: [
+          "Advanced strategies",
+          "The basics and patience",
+          "How to win quickly",
+          "Opening theories",
+        ],
+        answer: "B",
+        explanation: "'Mr. Volkov made him study the basics for weeks.'",
+      },
+      {
+        id: 4,
+        question: "What place did Daniel finish in the tournament?",
+        options: ["First", "Second", "Third", "Last"],
+        answer: "C",
+        explanation: "'Daniel finished third.'",
+      },
+      {
+        id: 5,
+        question: "What did Daniel say Mr. Volkov taught him besides chess?",
+        options: [
+          "Math and science",
+          "Patience and how to think before acting",
+          "How to make friends",
+          "How to cook",
+        ],
+        answer: "B",
+        explanation:
+          "'you also taught me how to be patient, how to think before acting, and how to lose with dignity.'",
+      },
+    ],
+    words: [
+      { word: "ignoring", translation: "忽视", phonetic: "/ɪɡˈnɔːrɪŋ/" },
+      { word: "restlessness", translation: "不安；焦躁", phonetic: "/ˈrestləsnəs/" },
+      { word: "impatient", translation: "不耐烦的", phonetic: "/ɪmˈpeɪʃnt/" },
+      { word: "applauding", translation: "鼓掌", phonetic: "/əˈplɔːdɪŋ/" },
+      { word: "patient", translation: "耐心的", phonetic: "/ˈpeɪʃnt/" },
+    ],
+  },
+  {
+    title: "Scientists Discover Underground Ocean on Saturn's Moon",
+    summary:
+      "New data from the Cassini spacecraft reveals a vast liquid water ocean beneath the icy surface of Enceladus, potentially harboring conditions suitable for life.",
+    level: "senior",
+    category: "news",
+    content:
+      '<p>Astronomers have confirmed the existence of a global ocean of liquid water beneath the icy crust of Enceladus, one of Saturn\'s moons. The discovery, published in the journal Nature, suggests that the small moon may have the right <mark class="vocabulary" data-word="conditions">conditions</mark> to support microbial life.</p>\n<p>Data from NASA\'s Cassini spacecraft, which spent 13 years studying the Saturn system, revealed that Enceladus has hydrothermal vents on its ocean floor — similar to those found in Earth\'s deep oceans where life thrives without <mark class="vocabulary" data-word="sunlight">sunlight</mark>. The water is kept liquid by heat generated from tidal forces as Saturn\'s gravity pulls on the moon.</p>\n<p>"This is one of the most exciting discoveries in planetary science in decades," said Dr. Amanda Torres, a planetary geologist at NASA\'s Jet Propulsion Laboratory. "We now have <mark class="vocabulary" data-word="convincing">convincing</mark> evidence that Enceladus has a warm, salty ocean in contact with a rocky core. On Earth, those are exactly the conditions where we find life."</p>\n<p>The ocean is believed to be about 10 kilometers deep, buried under 30 to 40 kilometers of ice. Cassini detected organic molecules, carbon dioxide, and hydrogen in plumes of water vapor erupting from cracks in the ice — all <mark class="vocabulary" data-word="ingredients">ingredients</mark> that could support simple organisms.</p>\n<p>NASA is now planning a follow-up mission, tentatively named "Enceladus Life Finder," that would fly through the plumes and analyze their content at a much higher resolution. The mission could launch as early as 2035. "We are <mark class="vocabulary" data-word="cautiously">cautiously</mark> optimistic," Dr. Torres said. "If life exists elsewhere in our solar system, Enceladus is now the most promising place to look."</p>',
+    questions: [
+      {
+        id: 1,
+        question: "What did Cassini discover on Enceladus?",
+        options: [
+          "A new continent",
+          "A global ocean under the ice",
+          "Active volcanoes",
+          "Life forms",
+        ],
+        answer: "B",
+        explanation:
+          "'confirmed the existence of a global ocean of liquid water beneath the icy crust.'",
+      },
+      {
+        id: 2,
+        question: "What keeps the ocean liquid?",
+        options: [
+          "The sun's heat",
+          "Heat from tidal forces",
+          "Chemical reactions",
+          "Nuclear energy",
+        ],
+        answer: "B",
+        explanation: "'water is kept liquid by heat generated from tidal forces.'",
+      },
+      {
+        id: 3,
+        question: "What did Cassini detect in the water plumes?",
+        options: [
+          "Only water",
+          "Organic molecules, CO2, and hydrogen",
+          "Fish and plants",
+          "Metal deposits",
+        ],
+        answer: "B",
+        explanation: "'detected organic molecules, carbon dioxide, and hydrogen in plumes.'",
+      },
+      {
+        id: 4,
+        question: "What is the follow-up mission called?",
+        options: ["Mars Explorer", "Enceladus Life Finder", "Saturn Voyager", "Ocean Hunter"],
+        answer: "B",
+        explanation: "'planning a follow-up mission, tentatively named \"Enceladus Life Finder.\"'",
+      },
+    ],
+    words: [
+      { word: "conditions", translation: "条件；环境", phonetic: "/kənˈdɪʃnz/" },
+      { word: "sunlight", translation: "阳光", phonetic: "/ˈsʌnlaɪt/" },
+      { word: "convincing", translation: "有说服力的", phonetic: "/kənˈvɪnsɪŋ/" },
+      { word: "ingredients", translation: "成分；原料", phonetic: "/ɪnˈɡriːdiənts/" },
+      { word: "cautiously", translation: "谨慎地", phonetic: "/ˈkɔːʃəsli/" },
+    ],
+  },
+  {
+    title: "The Photograph in the Attic",
+    summary:
+      "While packing for college, Sophie discovers an old photograph that reveals her grandmother's hidden past as a freedom fighter.",
+    level: "senior",
+    category: "story",
+    content:
+      '<p>The summer before college, Sophie\'s mother asked her to clean out the attic. "You\'ll find things you never knew existed," her mom said with a mysterious smile. Sophie expected dust and old furniture, not a <mark class="vocabulary" data-word="discovery">discovery</mark> that would change how she saw her family forever.</p>\n<p>At the bottom of a wooden trunk, she found a black-and-white photograph of a young woman standing in front of a crowd, holding a sign that read "Freedom and Justice." The woman looked familiar but much younger — it was her grandmother, who had passed away when Sophie was seven. Sophie had only known her as a gentle woman who baked cookies and knitted sweaters.</p>\n<p>She ran downstairs. "Mom, was Grandma a <mark class="vocabulary" data-word="protester">protester</mark>?" Her mother sighed and sat down. "Your grandmother was part of the civil rights movement in the 1960s. She marched, she organized, and she was arrested twice for sitting at a lunch counter that refused to serve Black people."</p>\n<p>Sophie couldn\'t believe it. "Why did nobody ever tell me?" Her mother explained that after the movement, Grandma chose a quiet life. She wanted her children and grandchildren to grow up without the burden of her past. "But she always said that courage isn\'t about being <mark class="vocabulary" data-word="fearless">fearless</mark>," her mom added. "It\'s about standing up for what\'s right even when you are afraid."</p>\n<p>That fall, Sophie started college with a new sense of purpose. She joined the student <mark class="vocabulary" data-word="activist">activist</mark> group and hung her grandmother\'s photograph on her dorm wall. Every time she walked past it, she felt a connection to a woman she was just beginning to understand. "I carry her <mark class="vocabulary" data-word="spirit">spirit</mark> with me now," Sophie wrote in her journal. "And I finally understand what she fought for."</p>',
+    questions: [
+      {
+        id: 1,
+        question: "Where did Sophie find the photograph?",
+        options: ["In her bedroom", "In the attic", "At school", "At her grandmother's house"],
+        answer: "B",
+        explanation: "'At the bottom of a wooden trunk' in the attic.",
+      },
+      {
+        id: 2,
+        question: "What movement was Sophie's grandmother part of?",
+        options: [
+          "The environmental movement",
+          "The civil rights movement",
+          "The women's rights movement",
+          "The labor movement",
+        ],
+        answer: "B",
+        explanation: "'Your grandmother was part of the civil rights movement in the 1960s.'",
+      },
+      {
+        id: 3,
+        question: "What did Sophie's grandmother say about courage?",
+        options: [
+          "Courage means never being scared",
+          "Courage is standing up for what's right when you are afraid",
+          "Courage is about physical strength",
+          "Courage is something you're born with",
+        ],
+        answer: "B",
+        explanation:
+          "'courage isn't about being fearless... It's about standing up for what's right even when you are afraid.'",
+      },
+      {
+        id: 4,
+        question: "What did Sophie do when she started college?",
+        options: [
+          "She studied history",
+          "She joined the student activist group",
+          "She became a teacher",
+          "She wrote a book",
+        ],
+        answer: "B",
+        explanation: "'She joined the student activist group.'",
+      },
+    ],
+    words: [
+      { word: "discovery", translation: "发现", phonetic: "/dɪˈskʌvəri/" },
+      { word: "protester", translation: "抗议者", phonetic: "/prəˈtestər/" },
+      { word: "fearless", translation: "无畏的", phonetic: "/ˈfɪrləs/" },
+      { word: "activist", translation: "活动家；积极分子", phonetic: "/ˈæktɪvɪst/" },
+      { word: "spirit", translation: "精神", phonetic: "/ˈspɪrɪt/" },
     ],
   },
 ];
