@@ -1,0 +1,20 @@
+node_modules/
+dist/
+.env
+*.db
+data/
+.DS_Store
+*.log
+
+# 原始词库数据（体积大，不提交）
+packages/backend/src/db/raw_data/
+
+# 生成的种子数据（体积大，运行时生成）
+packages/backend/src/db/seed-data.json
+
+# Playwright
+e2e/report/
+e2e/results.json
+/test-results/
+.playwright/
+

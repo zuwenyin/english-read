@@ -1,0 +1,51 @@
+{
+  "name": "english-read",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "prepare": "husky",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,cjs,mjs,json,md,yml,yaml}\"",
+    "lint:check": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,cjs,mjs,json,md,yml,yaml}\"",
+    "test": "pnpm -r run test",
+    "test:backend": "pnpm --filter @english-read/backend run test",
+    "test:frontend": "pnpm --filter @english-read/frontend run test",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:report": "playwright show-report e2e/report"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "@playwright/test": "^1.61.1",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react": "^7.33.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0",
+    "prettier": "^3.0.0"
+  }
+}
