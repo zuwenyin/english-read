@@ -12,7 +12,6 @@ import {
   Spin,
   Empty,
   Space,
-  FloatButton,
   message,
 } from "../components/antd-wrapper";
 
@@ -157,7 +156,7 @@ function WordLearn() {
 
         {currentWord.example_sentence && (
           <Text italic style={{ display: "block", color: "#666", fontSize: 14, lineHeight: 1.6 }}>
-            "{currentWord.example_sentence}"
+            &ldquo;{currentWord.example_sentence}&rdquo;
           </Text>
         )}
 

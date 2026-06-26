@@ -192,6 +192,7 @@ function ReadingList() {
                   >
                     {CATEGORY_LABELS[article.category] || article.category}
                   </Tag>
+                  {article.source && <Tag color="geekblue">{article.source}</Tag>}
                 </div>
                 <Card.Meta
                   title={article.title}

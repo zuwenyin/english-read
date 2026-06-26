@@ -1,0 +1,13 @@
+node_modules
+dist
+build
+coverage
+data
+test-results
+*.min.js
+*.min.cjs
+*.min.mjs
+pnpm-lock.yaml
+**/raw_data/**
+
+

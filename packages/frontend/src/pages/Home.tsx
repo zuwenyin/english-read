@@ -82,21 +82,18 @@ function HomeOverview({
     queryKey: ["stats", "overview"],
     queryFn: getStatsOverview,
     enabled: isAuthenticated,
-    staleTime: 30_000,
   });
 
   const { data: books, isLoading: booksLoading } = useQuery({
     queryKey: ["wordBooks", level],
     queryFn: () => getWordBooks(level),
     enabled: isAuthenticated,
-    staleTime: 30_000,
   });
 
   const { data: articles, isLoading: articlesLoading } = useQuery({
     queryKey: ["articles", "home", level],
     queryFn: () => getArticles({ level, pageSize: 6 }),
     enabled: isAuthenticated,
-    staleTime: 30_000,
   });
 
   const levelLabel = LEVELS.find((l) => l.key === level)?.label ?? level;
@@ -175,7 +172,7 @@ function HomeOverview({
                 <Text type="secondary" ellipsis>
                   {article.summary}
                 </Text>
-                <div style={{ marginTop: 8 }}>
+                <div style={{ marginTop: 8, display: "flex", gap: 4, flexWrap: "wrap" }}>
                   <Tag
                     color={
                       article.category === "story"
@@ -191,6 +188,7 @@ function HomeOverview({
                         ? "新闻"
                         : article.category}
                   </Tag>
+                  {article.source && <Tag color="geekblue">{article.source}</Tag>}
                 </div>
               </Card>
             </Col>

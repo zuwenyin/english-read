@@ -38,7 +38,9 @@ CREATE TABLE IF NOT EXISTS articles (
     summary TEXT DEFAULT '',
     level TEXT NOT NULL,
     category TEXT NOT NULL,
+    source TEXT DEFAULT '',
     questions TEXT DEFAULT '[]',
+    content_translation TEXT DEFAULT '',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -56,15 +58,17 @@ CREATE TABLE IF NOT EXISTS user_word_progress (
     UNIQUE(user_id, word_id)
 );
 
--- 6. user_article_progress — 文章阅读进度
+-- 6. user_article_progress — 文章阅读进度（支持多轮答题 attempt）
 CREATE TABLE IF NOT EXISTS user_article_progress (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     article_id INTEGER NOT NULL,
+    attempt INTEGER NOT NULL DEFAULT 1,
     answers TEXT DEFAULT '[]',
     completed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (article_id) REFERENCES articles(id)
+    FOREIGN KEY (article_id) REFERENCES articles(id),
+    UNIQUE(user_id, article_id, attempt)
 );
 
 -- 7. article_words — 文章生词预标注

@@ -24,6 +24,8 @@ export interface IProgressRepository {
   getStatsOverview(userId: number): Promise<StatsOverview>;
   /** 获取最近学习记录 */
   getRecentProgress(userId: number): Promise<RecentProgress>;
+  /** 批量获取指定单词的用户熟识度（返回 word→familiarity 映射） */
+  getWordFamiliarityBatch(userId: number, words: string[]): Promise<Map<string, number>>;
 }
 
 export interface WordProgressRecord {

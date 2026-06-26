@@ -10,7 +10,9 @@ import WordLearn from "../pages/WordLearn";
 import WordQuiz from "../pages/WordQuiz";
 import Reading from "../pages/Reading";
 import ReadingDetail from "../pages/ReadingDetail";
+import ReadingResult from "../pages/ReadingResult";
 import Profile from "../pages/Profile";
+import Admin from "../pages/Admin";
 import type { ReactNode } from "react";
 
 // 路由守卫：需要登录才能访问
@@ -95,6 +97,14 @@ function AppRouter() {
             }
           />
           <Route
+            path="/reading/:id/result"
+            element={
+              <ProtectedRoute>
+                <ReadingResult />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/reading/:id"
             element={
               <ProtectedRoute>
@@ -107,6 +117,14 @@ function AppRouter() {
             element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <Admin />
               </ProtectedRoute>
             }
           />

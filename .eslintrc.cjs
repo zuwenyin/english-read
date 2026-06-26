@@ -29,6 +29,15 @@ module.exports = {
   rules: {
     "react/react-in-jsx-scope": "off",
     "prettier/prettier": ["error", { endOfLine: "auto" }],
+    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     // 项目自定义规则可在此添加
   },
+  overrides: [
+    {
+      files: ["**/__tests__/**", "**/*.test.*"],
+      rules: {
+        "@typescript-eslint/no-explicit-any": "off",
+      },
+    },
+  ],
 };

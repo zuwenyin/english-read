@@ -70,12 +70,26 @@ export class ProgressService {
       if (!question) {
         throw new AppError(ERROR_CODES.BAD_REQUEST, `题目 ${item.question_id} 不存在`);
       }
-      const isCorrect = item.selected === question.answer;
+      // 兼容两种 answer 格式：
+      // - 新格式（字母 A/B/C/D）：直接与 selected 比对
+      // - 旧格式（选项全文本）：查找在 options 中的索引，转为字母后比对
+      let correctLetter = question.answer;
+      if (correctLetter.length > 1) {
+        const cleanOptions = question.options.map((opt) =>
+          opt.replace(/^[A-D][.．、)）]\s*/i, "").trim(),
+        );
+        const idx = cleanOptions.indexOf(question.answer);
+        if (idx >= 0) {
+          correctLetter = String.fromCharCode(65 + idx);
+        }
+      }
+      const isCorrect = item.selected === correctLetter;
       return {
         question_id: item.question_id,
         selected: item.selected,
-        correct: question.answer,
+        correct: correctLetter,
         is_correct: isCorrect,
+        explanation: question.explanation,
       };
     });
 
@@ -90,6 +104,7 @@ export class ProgressService {
       id: record.id,
       quiz_score: quizScore,
       completed_at: record.completed_at,
+      answers,
     };
   }
 }

@@ -5,7 +5,9 @@
     "packages/*"
   ],
   "scripts": {
+    "dev": "pnpm --parallel --filter @english-read/backend --filter @english-read/frontend run dev",
     "prepare": "husky",
+    "fix": "pnpm lint && pnpm format",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs --fix",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,cjs,mjs,json,md,yml,yaml}\"",
     "lint:check": "eslint . --ext .ts,.tsx,.js,.jsx,.cjs,.mjs",

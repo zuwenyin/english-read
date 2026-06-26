@@ -5,6 +5,7 @@ import {
   ArticleDetail,
   Question,
   ArticleWordRecord,
+  ArticleWordInput,
   PaginatedResult,
 } from "../interfaces/IArticleRepository";
 
@@ -40,14 +41,14 @@ export class SqliteArticleRepository implements IArticleRepository {
 
     const totalRow = this.db
       .prepare(`SELECT COUNT(*) as count FROM articles ${where}`)
-      .get(...params) as { count: number };
+      .get<{ count: number }>(...params)!;
     const total = totalRow.count;
 
     const list = this.db
       .prepare(
-        `SELECT id, title, summary, level, category, created_at FROM articles ${where} ORDER BY created_at DESC LIMIT ? OFFSET ?`,
+        `SELECT id, title, summary, level, category, source, created_at FROM articles ${where} ORDER BY created_at DESC LIMIT ? OFFSET ?`,
       )
-      .all(...params, pageSize, offset) as ArticleListItem[];
+      .all<ArticleListItem>(...params, pageSize, offset);
 
     return Promise.resolve({ list, total, page, pageSize });
   }
@@ -59,13 +60,23 @@ export class SqliteArticleRepository implements IArticleRepository {
 
     if (!row) return Promise.resolve(null);
 
+    const articleId = row.id as number;
+    // AI 生成的 questions 不含 id，在这里补齐唯一 id（articleId * 1000 + 序号）
+    const rawQuestions = JSON.parse((row.questions as string) || "[]") as Question[];
+    const questions = rawQuestions.map((q, i) => ({
+      ...q,
+      id: q.id || articleId * 1000 + i + 1,
+    }));
+
     const detail: ArticleDetail = {
-      id: row.id as number,
+      id: articleId,
       title: row.title as string,
       content: row.content as string,
       level: row.level as string,
       category: row.category as string,
-      questions: JSON.parse((row.questions as string) || "[]") as Question[],
+      source: (row.source as string) || "",
+      questions,
+      content_translation: (row.content_translation as string) || "",
       created_at: row.created_at as string,
     };
 
@@ -75,7 +86,7 @@ export class SqliteArticleRepository implements IArticleRepository {
   getArticleWords(articleId: number): Promise<ArticleWordRecord[]> {
     const rows = this.db
       .prepare("SELECT * FROM article_words WHERE article_id = ?")
-      .all(articleId) as ArticleWordRecord[];
+      .all<ArticleWordRecord>(articleId);
     return Promise.resolve(rows);
   }
 
@@ -87,5 +98,64 @@ export class SqliteArticleRepository implements IArticleRepository {
     pageSize = 20,
   ): Promise<PaginatedResult<ArticleListItem>> {
     return this.getArticles(level, category, keyword, page, pageSize);
+  }
+
+  checkTitleExists(title: string): Promise<boolean> {
+    const row = this.db.prepare("SELECT id FROM articles WHERE title = ?").get(title) as
+      | { id: number }
+      | undefined;
+    return Promise.resolve(!!row);
+  }
+
+  insertArticle(
+    title: string,
+    content: string,
+    summary: string,
+    level: string,
+    category: string,
+    source: string,
+    questions: Question[],
+    words: ArticleWordInput[],
+    contentTranslation = "",
+  ): Promise<{ articleId: number }> {
+    const insertArticle = this.db.prepare(
+      `INSERT INTO articles (title, content, summary, level, category, source, questions, content_translation)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    );
+    const insertWord = this.db.prepare(
+      `INSERT INTO article_words (article_id, word, translation, phonetic)
+       VALUES (?, ?, ?, ?)`,
+    );
+
+    // node:sqlite (DatabaseSync) 不支持 transaction() API，
+    // 使用 exec 手动管理事务边界确保原子性
+    this.db.exec("BEGIN");
+
+    const result = insertArticle.run(
+      title,
+      content,
+      summary,
+      level,
+      category,
+      source,
+      JSON.stringify(questions),
+      contentTranslation,
+    );
+    const id = Number(result.lastInsertRowid);
+
+    for (const w of words) {
+      insertWord.run(id, w.word, w.translation, w.phonetic);
+    }
+
+    this.db.exec("COMMIT");
+
+    return Promise.resolve({ articleId: id });
+  }
+
+  updateTranslation(articleId: number, contentTranslation: string): Promise<void> {
+    this.db
+      .prepare("UPDATE articles SET content_translation = ? WHERE id = ?")
+      .run(contentTranslation, articleId);
+    return Promise.resolve();
   }
 }

@@ -110,6 +110,7 @@ function Words() {
                   }}
                   actions={[
                     <Button
+                      key="action"
                       type={isSelected ? "default" : "primary"}
                       block
                       style={

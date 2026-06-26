@@ -10,6 +10,7 @@ export default defineConfig({
       "/api": {
         target: "http://localhost:3000",
         changeOrigin: true,
+        timeout: 300_000, // 5 分钟（admin 拉取管线耗时较长）
       },
     },
   },

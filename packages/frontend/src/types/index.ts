@@ -41,6 +41,7 @@ export interface ArticleListItem {
   summary: string;
   level: string;
   category: string;
+  source: string;
   created_at: string;
 }
 
@@ -64,6 +65,7 @@ export interface AnswerRecord {
   selected: string;
   correct: string;
   is_correct: boolean;
+  explanation?: string;
 }
 
 export interface ArticleDetail {
@@ -72,12 +74,16 @@ export interface ArticleDetail {
   content: string;
   level: string;
   category: string;
+  source: string;
   questions: Question[];
   article_words: ArticleWord[];
+  content_translation: string;
   user_progress: {
     answers: AnswerRecord[];
     completed_at: string;
+    quiz_score: number;
   } | null;
+  user_word_familiarity: Record<string, number>;
   created_at: string;
 }
 
@@ -85,6 +91,7 @@ export interface ArticleProgressResult {
   id: number;
   quiz_score: number;
   completed_at: string;
+  answers: AnswerRecord[];
 }
 
 export interface StatsOverview {

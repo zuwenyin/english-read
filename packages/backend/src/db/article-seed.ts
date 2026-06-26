@@ -7,6 +7,7 @@
 import { DatabaseSync } from "node:sqlite";
 import { existsSync, mkdirSync } from "node:fs";
 import { dirname } from "node:path";
+import { logger } from "../utils/logger";
 
 const dbPath = "./data/english-read.db";
 
@@ -21,9 +22,9 @@ db.exec("PRAGMA foreign_keys = ON");
 // 运行 migration（安全忽略已存在的列）
 try {
   db.exec("ALTER TABLE articles ADD COLUMN summary TEXT DEFAULT ''");
-  console.log("[Migration] ✅ summary 列已添加");
+  logger.info("[Migration] summary 列已添加");
 } catch {
-  console.log("[Migration] ⚠️ summary 列已存在，跳过");
+  logger.debug("[Migration] summary 列已存在，跳过");
 }
 
 // 清空旧的测试文章数据
@@ -1773,8 +1774,8 @@ for (let i = 0; i < articles.length; i++) {
     insertWord.run(articleId, w.word, w.translation, w.phonetic);
   }
 
-  console.log(
-    `  📄 [${a.level}/${a.category}] "${a.title}" — ${a.questions.length} 题, ${a.words.length} 生词`,
+  logger.info(
+    `  [${a.level}/${a.category}] "${a.title}" — ${a.questions.length} 题, ${a.words.length} 生词`,
   );
 }
 
@@ -1783,5 +1784,5 @@ db.exec("COMMIT");
 const count = db.prepare("SELECT COUNT(*) as c FROM articles").get() as { c: number };
 const wordCount = db.prepare("SELECT COUNT(*) as c FROM article_words").get() as { c: number };
 
-console.log(`\n[Article Seed] ✅ 完成！${count.c} 篇文章，${wordCount.c} 个生词标注`);
+logger.info(`[Article Seed] 完成！${count.c} 篇文章，${wordCount.c} 个生词标注`);
 db.close();

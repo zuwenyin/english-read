@@ -24,6 +24,28 @@ export interface IArticleRepository {
     page?: number,
     pageSize?: number,
   ): Promise<PaginatedResult<ArticleListItem>>;
+  /** 检查标题是否已存在（去重） */
+  checkTitleExists(title: string): Promise<boolean>;
+  /** 插入文章及其生词标注（事务保护） */
+  insertArticle(
+    title: string,
+    content: string,
+    summary: string,
+    level: string,
+    category: string,
+    source: string,
+    questions: Question[],
+    words: ArticleWordInput[],
+    contentTranslation?: string,
+  ): Promise<{ articleId: number }>;
+  /** 更新文章翻译（用于重新翻译） */
+  updateTranslation(articleId: number, contentTranslation: string): Promise<void>;
+}
+
+export interface ArticleWordInput {
+  word: string;
+  translation: string;
+  phonetic: string;
 }
 
 export interface ArticleListItem {
@@ -32,6 +54,7 @@ export interface ArticleListItem {
   summary: string;
   level: string;
   category: string;
+  source: string;
   created_at: string;
 }
 
@@ -41,7 +64,9 @@ export interface ArticleDetail {
   content: string;
   level: string;
   category: string;
+  source: string;
   questions: Question[];
+  content_translation: string;
   created_at: string;
 }
 

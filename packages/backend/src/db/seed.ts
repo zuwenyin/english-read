@@ -8,6 +8,7 @@ import { DatabaseSync } from "node:sqlite";
 import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { cacheClear } from "../utils/cache";
+import { logger } from "../utils/logger";
 
 const dbPath = "./data/english-read.db";
 
@@ -30,7 +31,7 @@ if (existsSync(schemaPath)) {
 // 读取种子数据
 const seedDataPath = join(__dirname, "..", "db", "seed-data.json");
 if (!existsSync(seedDataPath)) {
-  console.error("[Seed] ❌ 找不到 seed-data.json，请先运行 process-data.js");
+  logger.error("[Seed] 找不到 seed-data.json，请先运行 process-data.js");
   process.exit(1);
 }
 
@@ -59,9 +60,9 @@ interface SeedData {
 const seedRaw = readFileSync(seedDataPath, "utf-8");
 const seedData: SeedData = JSON.parse(seedRaw);
 
-console.log(`[Seed] 数据来源: ${seedData.source}`);
-console.log(`[Seed] 生成时间: ${seedData.generated_at}`);
-console.log(`[Seed] 词书数量: ${seedData.books.length}`);
+logger.info(`[Seed] 数据来源: ${seedData.source}`);
+logger.info(`[Seed] 生成时间: ${seedData.generated_at}`);
+logger.info(`[Seed] 词书数量: ${seedData.books.length}`);
 
 // 清空旧数据
 db.exec("DELETE FROM user_word_progress");
@@ -76,15 +77,13 @@ const insertBook = db.prepare(
 for (let i = 0; i < seedData.books.length; i++) {
   const book = seedData.books[i];
   insertBook.run(i + 1, book.book_name, book.level, book.description);
-  console.log(`  📚 #${i + 1} ${book.book_name} (${book.level})`);
+  logger.info(`  #${i + 1} ${book.book_name} (${book.level})`);
 }
 
 // === 插入单词（使用事务提速） ===
 const insertWord = db.prepare(
   "INSERT INTO words (word_book_id, word, phonetic, translation, example_sentence, difficulty) VALUES (?, ?, ?, ?, ?, ?)",
 );
-
-let totalWords = 0;
 
 db.exec("BEGIN TRANSACTION");
 
@@ -99,19 +98,16 @@ for (let i = 0; i < seedData.books.length; i++) {
   }
 
   const withTrans = book.words.filter((w: SeedWord) => w.translation.length > 0).length;
-  console.log(
-    `  📝 ${book.book_name}: ${bookWordCount} 单词 (翻译: ${withTrans}/${bookWordCount})`,
-  );
-  totalWords += bookWordCount;
+  logger.info(`${book.book_name}: ${bookWordCount} 单词 (翻译: ${withTrans}/${bookWordCount})`);
 }
 
 db.exec("COMMIT");
 
 const count = db.prepare("SELECT COUNT(*) as c FROM words").get() as { c: number };
-console.log(`\n[Seed] ✅ 完成！${seedData.books.length} 本词书，${count.c} 个单词`);
+logger.info(`[Seed] 完成！${seedData.books.length} 本词书，${count.c} 个单词`);
 
 // 清除后端缓存
 cacheClear();
-console.log("[Seed] 🧹 后端缓存已清除");
+logger.info("[Seed] 后端缓存已清除");
 
 db.close();

@@ -32,6 +32,10 @@ export { Collapse } from "antd";
 export { List } from "antd";
 export { Modal } from "antd";
 export { Drawer } from "antd";
+export { Table } from "antd";
+export { Popconfirm } from "antd";
+export { InputNumber } from "antd";
+export { Checkbox } from "antd";
 
 export type { ButtonProps } from "antd";
 export type { CardProps } from "antd";

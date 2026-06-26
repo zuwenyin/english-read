@@ -32,13 +32,11 @@ function Profile() {
   const { data: stats, isLoading: statsLoading } = useQuery({
     queryKey: ["stats", "overview"],
     queryFn: getStatsOverview,
-    staleTime: 30_000,
   });
 
   const { data: recent, isLoading: recentLoading } = useQuery({
     queryKey: ["stats", "recent"],
     queryFn: getRecentProgress,
-    staleTime: 30_000,
   });
 
   const updateMutation = useMutation({

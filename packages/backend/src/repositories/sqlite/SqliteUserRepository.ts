@@ -10,16 +10,12 @@ export class SqliteUserRepository implements IUserRepository {
   constructor(private db: DatabaseSync) {}
 
   findByUsername(username: string): Promise<UserRecord | null> {
-    const row = this.db.prepare("SELECT * FROM users WHERE username = ?").get(username) as
-      | UserRecord
-      | undefined;
+    const row = this.db.prepare("SELECT * FROM users WHERE username = ?").get<UserRecord>(username);
     return Promise.resolve(row ?? null);
   }
 
   findByEmail(email: string): Promise<UserRecord | null> {
-    const row = this.db.prepare("SELECT * FROM users WHERE email = ?").get(email) as
-      | UserRecord
-      | undefined;
+    const row = this.db.prepare("SELECT * FROM users WHERE email = ?").get<UserRecord>(email);
     return Promise.resolve(row ?? null);
   }
 
@@ -32,9 +28,7 @@ export class SqliteUserRepository implements IUserRepository {
   }
 
   findById(id: number): Promise<UserRecord | null> {
-    const row = this.db.prepare("SELECT * FROM users WHERE id = ?").get(id) as
-      | UserRecord
-      | undefined;
+    const row = this.db.prepare("SELECT * FROM users WHERE id = ?").get<UserRecord>(id);
     return Promise.resolve(row ?? null);
   }
 

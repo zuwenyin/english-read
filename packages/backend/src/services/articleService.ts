@@ -53,7 +53,14 @@ export class ArticleService {
 
     return {
       ...article,
+      // 脱敏 questions：不向前端暴露 answer 和 explanation
+      questions: article.questions.map((q) => ({
+        id: q.id,
+        question: q.question,
+        options: q.options,
+      })),
       article_words: articleWords,
+      content_translation: article.content_translation,
     };
   }
 }
