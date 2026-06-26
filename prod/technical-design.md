@@ -1,7 +1,8 @@
 # 英文学习平台 - 技术方案文档
 
 > 创建时间：2026-06-24  
-> 状态：待开发
+> 最后更新：2026-06-26  
+> 状态：开发中
 
 ---
 
@@ -75,15 +76,20 @@
 
 ### 3.4 后端（packages/backend）
 
-| 技术         | 选型                         | 说明                                       |
-| ------------ | ---------------------------- | ------------------------------------------ |
-| 运行时       | Node.js                      |                                            |
-| 框架         | Express + TypeScript         |                                            |
-| 数据库适配层 | Repository 模式              | 接口与实现分离，方便切换数据库             |
-| 初期数据库   | SQLite（node:sqlite 内置）   | 零依赖、免编译，Node.js 22+ 内置           |
-| 密码加密     | bcryptjs（salt rounds = 10） | 纯 JS 实现，无需编译，API 与 bcrypt 兼容   |
-| 鉴权         | jsonwebtoken（JWT）          | 无 session 依赖，适合 SPA                  |
-| 参数校验     | Zod                          | 与 TypeScript 集成好，支持 schema 推导类型 |
+| 技术         | 选型                               | 说明                                       |
+| ------------ | ---------------------------------- | ------------------------------------------ |
+| 运行时       | Node.js                            |                                            |
+| 框架         | Express + TypeScript               |                                            |
+| 数据库适配层 | Repository 模式                    | 接口与实现分离，方便切换数据库             |
+| 初期数据库   | SQLite（node:sqlite 内置）         | 零依赖、免编译，Node.js 22+ 内置           |
+| 密码加密     | bcryptjs（salt rounds = 10）       | 纯 JS 实现，无需编译，API 与 bcrypt 兼容   |
+| 鉴权         | jsonwebtoken（JWT）                | 无 session 依赖，适合 SPA                  |
+| 参数校验     | Zod                                | 与 TypeScript 集成好，支持 schema 推导类型 |
+| 日志         | Winston                            | 结构化日志，支持 LOG_LEVEL 环境变量        |
+| 定时调度     | node-cron                          | 定时任务调度，每天 8:00 自动拉取文章       |
+| API 文档     | swagger-jsdoc + swagger-ui-express | OpenAPI 3.0 自动生成，Admin 路由注解       |
+| AI 服务      | openai（DeepSeek API）             | 自动生成阅读理解题、生词标注、句子级翻译   |
+| 内容抓取     | cheerio + rss-parser               | HTML 解析 + RSS 订阅，从多个外部源抓取文章 |
 
 ### 3.5 前端 Linter 工具链
 
@@ -170,16 +176,18 @@
 
 ### 5.4 articles 表 — 阅读文章
 
-| 字段       | 类型       | 说明                                                      |
-| ---------- | ---------- | --------------------------------------------------------- |
-| id         | INTEGER PK | 文章ID                                                    |
-| title      | TEXT       | 标题                                                      |
-| content    | TEXT       | 文章内容（HTML，生词用 `<mark class="vocabulary">` 标注） |
-| summary    | TEXT       | 文章简介（列表页展示，约 100 字符）                       |
-| level      | TEXT       | 对应阶段（primary/junior/senior/college）                 |
-| category   | TEXT       | 类型（story/news）                                        |
-| questions  | JSON       | 阅读理解题（Schema 见下方）                               |
-| created_at | DATETIME   | 创建时间                                                  |
+| 字段                | 类型       | 说明                                                                  |
+| ------------------- | ---------- | --------------------------------------------------------------------- |
+| id                  | INTEGER PK | 文章ID                                                                |
+| title               | TEXT       | 标题                                                                  |
+| content             | TEXT       | 文章内容（HTML，生词用 `<mark class="vocabulary">` 标注）             |
+| summary             | TEXT       | 文章简介（列表页展示，约 100 字符）                                   |
+| level               | TEXT       | 对应阶段（primary/junior/senior/college）                             |
+| category            | TEXT       | 类型（story/news）                                                    |
+| source              | TEXT       | 来源标识（如 "China Daily"、"Breaking News English"、"AI Generated"） |
+| content_translation | TEXT       | 段落级中英对照翻译（JSON 格式，由 DeepSeek 生成）                     |
+| questions           | JSON       | 阅读理解题（Schema 见下方）                                           |
+| created_at          | DATETIME   | 创建时间                                                              |
 
 **questions 字段 JSON Schema：**
 
@@ -211,13 +219,16 @@
 
 ### 5.6 user_article_progress 表 — 文章阅读进度
 
-| 字段         | 类型       | 说明                      |
-| ------------ | ---------- | ------------------------- |
-| id           | INTEGER PK | 记录ID                    |
-| user_id      | INTEGER FK | 用户ID                    |
-| article_id   | INTEGER FK | 文章ID                    |
-| answers      | JSON       | 答题明细（Schema 见下方） |
-| completed_at | DATETIME   | 完成时间                  |
+| 字段         | 类型       | 说明                                     |
+| ------------ | ---------- | ---------------------------------------- |
+| id           | INTEGER PK | 记录ID                                   |
+| user_id      | INTEGER FK | 用户ID                                   |
+| article_id   | INTEGER FK | 文章ID                                   |
+| attempt      | INTEGER    | 答题轮次（默认 1，支持同一用户多轮答题） |
+| answers      | JSON       | 答题明细（Schema 见下方）                |
+| completed_at | DATETIME   | 完成时间                                 |
+
+**唯一约束**：`(user_id, article_id, attempt)` 联合唯一，确保同一用户对同一文章的同一轮次只有一条记录。
 
 > **校验策略**：`quiz_score` 不再单独存储，通过 `answers` 明细实时计算正确率。提交答案时，后端查询文章 `questions` JSON 逐个比对，自行计算 `is_correct`，不信任前端传入的 `correct`/`is_correct` 字段。
 
@@ -249,6 +260,18 @@
 | phonetic    | TEXT       | 音标（可选）                            |
 
 > **生词标注逻辑**：文章中的生词通过 `article_words` 表预标注，同时结合用户的 `user_word_progress` 记录（familiarity ≤ 2 的单词也视为生词），两者叠加展示。
+
+### 5.8 数据库迁移记录
+
+项目已执行 5 次 Schema 迁移，脚本位于 `packages/backend/src/db/migrations/`：
+
+| 迁移编号 | 说明                                                    |
+| -------- | ------------------------------------------------------- |
+| 001      | articles 表新增 `summary` 字段（文章简介）               |
+| 002      | user_article_progress 表添加 UNIQUE(user_id, article_id) |
+| 003      | articles 表新增 `source` 字段（文章来源）                |
+| 004      | articles 表新增 `content_translation` 字段（段落级翻译） |
+| 005      | user_article_progress 新增 `attempt` 字段，支持多轮答题  |
 
 ---
 
@@ -338,26 +361,30 @@
 
 🔒 = 需要 JWT 鉴权（请求头带 `Authorization: Bearer <token>`）
 
-| 方法                                                                                        | 路径                        | 说明                                                               | 鉴权 |
-| ------------------------------------------------------------------------------------------- | --------------------------- | ------------------------------------------------------------------ | ---- |
-| POST                                                                                        | /api/auth/register          | 用户注册                                                           | 否   |
-| POST                                                                                        | /api/auth/login             | 用户登录                                                           | 否   |
-| GET                                                                                         | /api/auth/profile           | 获取当前用户资料                                                   | 🔒   |
-| PUT                                                                                         | /api/auth/profile           | 更新用户资料（邮箱/密码）                                          | 🔒   |
-| GET                                                                                         | /api/stats/overview         | 获取学习统计概览（已学单词数、已读文章数、平均成绩、本周学习时长） | 🔒   |
-| GET                                                                                         | /api/progress/recent        | 获取最近学习记录（最近词书/文章，各取 3 条）                       | 🔒   |
-| GET                                                                                         | /api/word-books             | 获取词书列表（按阶段筛选）                                         | 🔒   |
-| GET                                                                                         | /api/words/:bookId          | 获取词书单词列表（支持分页）                                       | 🔒   |
-| GET                                                                                         | /api/words/search           | 搜索单词（按英文或中文）                                           | 🔒   |
+| 方法                                                                                        | 路径                                | 说明                                                               | 鉴权 |
+| ------------------------------------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------ | ---- |
+| POST                                                                                        | /api/auth/register                  | 用户注册                                                           | 否   |
+| POST                                                                                        | /api/auth/login                     | 用户登录                                                           | 否   |
+| GET                                                                                         | /api/auth/profile                   | 获取当前用户资料                                                   | 🔒   |
+| PUT                                                                                         | /api/auth/profile                   | 更新用户资料（邮箱/密码）                                          | 🔒   |
+| GET                                                                                         | /api/stats/overview                 | 获取学习统计概览（已学单词数、已读文章数、平均成绩、本周学习时长） | 🔒   |
+| GET                                                                                         | /api/progress/recent                | 获取最近学习记录（最近词书/文章，各取 3 条）                       | 🔒   |
+| GET                                                                                         | /api/word-books                     | 获取词书列表（按阶段筛选）                                         | 🔒   |
+| GET                                                                                         | /api/words/:bookId                  | 获取词书单词列表（支持分页）                                       | 🔒   |
+| GET                                                                                         | /api/words/search                   | 搜索单词（按英文或中文）                                           | 🔒   |
 | **注意**：`/search` 路由必须注册在 `/:bookId` 之前，避免被 Express 误匹配为 `bookId=search` |
-| POST                                                                                        | /api/progress/word          | 更新单词熟识度                                                     | 🔒   |
-| GET                                                                                         | /api/progress/words/:bookId | 获取用户单词进度                                                   | 🔒   |
-| GET                                                                                         | /api/articles               | 获取文章列表（按阶段/类型/关键词筛选，支持分页）                   | 🔒   |
-| GET                                                                                         | /api/articles/:id           | 获取文章详情（含 questions、article_words、user_progress）         | 🔒   |
-| GET                                                                                         | /api/articles/search        | 搜索文章（按标题或内容关键词）                                     | 🔒   |
+| POST                                                                                        | /api/progress/word                  | 更新单词熟识度                                                     | 🔒   |
+| GET                                                                                         | /api/progress/words/:bookId         | 获取用户单词进度                                                   | 🔒   |
+| GET                                                                                         | /api/articles                       | 获取文章列表（按阶段/类型/关键词筛选，支持分页）                   | 🔒   |
+| GET                                                                                         | /api/articles/:id                   | 获取文章详情（含 questions、article_words、user_progress）         | 🔒   |
+| GET                                                                                         | /api/articles/search                | 搜索文章（按标题或内容关键词）                                     | 🔒   |
 | **注意**：`/search` 路由必须注册在 `/:id` 之前                                              |
-| POST                                                                                        | /api/progress/article       | 提交文章阅读进度/答题结果                                          | 🔒   |
-| POST                                                                                        | /api/cache/clear            | 清除后端缓存（内部接口，seed 脚本调用）                            | 🔒   |
+| POST                                                                                        | /api/progress/article               | 提交文章阅读进度/答题结果                                          | 🔒   |
+| POST                                                                                        | /api/cache/clear                    | 清除后端缓存（内部接口，seed 脚本调用）                            | 🔒   |
+| POST                                                                                        | /api/admin/fetch-articles           | 手动触发文章拉取管线                                               | 🔒   |
+| GET                                                                                         | /api/admin/fetch-status             | 获取最近一次文章拉取状态                                           | 🔒   |
+| DELETE                                                                                      | /api/admin/articles                 | 删除所有文章及关联数据                                             | 🔒   |
+| POST                                                                                        | /api/admin/articles/:id/retranslate | 重新翻译文章（调用 DeepSeek 句子级翻译）                           | 🔒   |
 
 ### 7.5 API 详细设计
 
@@ -771,6 +798,96 @@
 
 ---
 
+#### 7.5.18 POST /api/admin/fetch-articles — 手动触发文章拉取
+
+> 管理后台手动触发文章抓取管线，可选指定各年级拉取数量和内容源。
+
+**Request Body（可选）：**
+
+```json
+{
+  "counts": { "primary": 3, "junior": 5, "senior": 3, "college": 2 },
+  "sources": ["chinadaily", "breaking-news"]
+}
+```
+
+**Response：**
+
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "inserted": 12,
+    "skipped": 3,
+    "failed": 1,
+    "timestamp": "2026-06-26T08:00:00Z"
+  }
+}
+```
+
+#### 7.5.19 GET /api/admin/fetch-status — 获取拉取状态
+
+> 获取最近一次文章拉取结果，或当前进行中的状态。
+
+**Response：**
+
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "inserted": 12,
+    "skipped": 3,
+    "failed": 1,
+    "timestamp": "2026-06-26T08:00:00Z"
+  }
+}
+```
+
+#### 7.5.20 DELETE /api/admin/articles — 删除所有文章
+
+> 删除所有文章及关联数据（article_words + user_article_progress），返回被删除的记录数。
+
+**Response：**
+
+```json
+{
+  "code": 0,
+  "message": "所有文章及关联数据已删除",
+  "data": {
+    "deleted": {
+      "articles": 50,
+      "article_words": 250,
+      "user_article_progress": 120
+    }
+  }
+}
+```
+
+#### 7.5.21 POST /api/admin/articles/:id/retranslate — 重新翻译文章
+
+> 对指定文章调用 DeepSeek 重新生成句子级中英对照翻译，用于内容修正。
+
+**Response：**
+
+```json
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "success": true,
+    "message": "翻译已更新为句子级对照格式",
+    "preview": [
+      { "en": "Today is Monday.", "zh": "今天是星期一。" },
+      { "en": "Tom goes to school.", "zh": "汤姆去上学。" }
+    ]
+  }
+}
+```
+
+---
+
 ## 八、Monorepo 目录结构
 
 ```
@@ -790,8 +907,8 @@ english-read/
 │   │       ├── api/         # API 客户端（axios 封装）
 │   │       ├── components/  # 通用组件（Layout, antd-wrapper, AuthLayout）
 │   │       ├── hooks/       # 自定义 Hook（useMediaQuery）
-│   │       ├── pages/       # 页面组件（9 个页面）
-│   │       ├── store/       # 状态管理（AuthContext）
+│   │       ├── pages/       # 页面组件（11 个页面）
+│   │       ├── store/       # 状态管理（AuthContext, WordBookContext）
 │   │       ├── types/       # TypeScript 类型定义
 │   │       └── styles/      # 全局样式
 │   └── backend/             # Express 后端
@@ -799,12 +916,16 @@ english-read/
 │       ├── tsconfig.json
 │       └── src/
 │           ├── index.ts      # 入口
+│           ├── scheduler.ts   # 定时调度器（每天 8:00 自动拉取文章）
 │           ├── routes/       # 路由/控制器
 │           ├── services/     # 业务逻辑层
+│           │   ├── deepseekService.ts       # DeepSeek AI 服务
+│           │   ├── articleImportService.ts  # 文章导入管线
+│           │   └── content-fetchers/        # 内容源抓取器（5 个外部源）
 │           ├── repositories/ # 数据访问层（接口 + SQLite 实现）
-│           ├── db/           # 种子数据脚本（seed.ts, article-seed.ts, seed-data.json）
+│           ├── db/           # 种子数据脚本 + 迁移脚本（migrations/）
 │           ├── middleware/   # 中间件（auth, errorHandler）
-│           ├── utils/        # 工具函数（cache, response, jwt）
+│           ├── utils/        # 工具函数（cache, response, jwt, logger, swagger）
 ├── prod/                    # 技术文档
 └── docs/                    # 其他文档
 ```
@@ -920,6 +1041,19 @@ english-read/
 - 学习记录：最近学习的词书/文章
 - 账号信息：用户名、邮箱（可修改）
 
+### 10.10 阅读结果页（/reading/:id/result）
+
+- 答题结果展示：得分、正确率、答题明细
+- 每题显示题目、用户选择、正确答案、解析
+- 支持重新答题（同一文章多轮 attempt）
+
+### 10.11 管理后台页（/admin）
+
+- 文章拉取控制：手动触发内容抓取管线，可指定各年级拉取数量和来源
+- 拉取状态查询：查看最近一次拉取结果（插入/跳过/失败数量）
+- 文章管理：一键删除所有文章及关联数据
+- 文章翻译：对指定文章调用 DeepSeek 重新生成句子级中英对照翻译
+
 ---
 
 ## 十一、响应式设计
@@ -988,7 +1122,7 @@ english-read/
 
 ### 14.1 单元测试
 
-- **前端**：Jest + React Testing Library
+- **前端**：Vitest + React Testing Library
 - **后端**：Jest + ts-jest
 
 ### 14.2 E2E 测试
@@ -1031,9 +1165,11 @@ english-read/
 ## 十六、实施注意事项
 
 - **开源词库**：使用 CET-4/6、中考、高考等公开词库初始化数据库
-- **阅读文章**：初期通过 `article-seed.ts` 脚本导入 11 篇示例文章（primary×4、junior×2、senior×2、college×3），覆盖 story 和 news 两种类型，每篇含 4-5 道阅读理解题和 5 个生词预标注。运行 `pnpm --filter backend seed:articles` 即可导入
+- **阅读文章**：支持两种方式获取文章：
+  - `article-seed.ts` 脚本导入 11 篇示例文章（primary×4、junior×2、senior×2、college×3）
+  - 自动抓取管线：从 5 个外部内容源（Breaking News English、China Daily、Project Gutenberg、NewsAPI、Wikipedia）实时抓取，经 DeepSeek AI 加工后入库。运行 `pnpm --filter backend seed:articles` 导入示例文章，或通过 Admin 页面手动触发抓取
 - **密码安全**：bcryptjs salt rounds = 10（纯 JS 实现，无需编译）
-- **后台管理**：初期不做，数据通过 seed 脚本或 SQLite 客户端维护
+- **后台管理**：已实现 Admin 模块，支持手动文章拉取、状态查询、文章删除、文章重翻译
 - **seed 脚本设计**：
   - 词书数据：`packages/backend/src/db/seed-data.json`（5 本词书，共 12,800 词）
   - 文章数据：`packages/backend/src/db/article-seed.ts`（硬编码 11 篇文章）
@@ -1044,5 +1180,135 @@ english-read/
 - **Web Speech API 降级方案**：不支持的浏览器（如旧版 Firefox）显示音标文本，提示用户点击播放
 - **Repository 事务支持**：`IRepository` 接口新增 `transaction` 方法，SQLite 实现使用 `node:sqlite` 的事务 API
 - **初期数据来源**：
-  - 单词：CET-4/6 词表（公开资源）、中考/高考考纲词汇
-  - 文章：手动编写或从公开资源（如 VOA Learning English）整理
+  - 单词：CET-4/6 词表（公开资源）、中考/高考考纲词汇、IELTS/TOEFL/GRE/SAT 词表
+  - 文章：自动抓取（Breaking News English、China Daily 等）+ 手动编写 + AI 辅助生成（DeepSeek）
+
+---
+
+## 十七、DeepSeek AI 服务
+
+### 17.1 概述
+
+项目集成 DeepSeek API（OpenAI 兼容接口），用于文章内容的自动化加工，无需人工编写题目和标注生词。
+
+### 17.2 核心能力
+
+| 功能           | 说明                                                  |
+| -------------- | ----------------------------------------------------- |
+| 阅读理解题生成 | 每篇文章自动生成 4 道选择题（含 4 个选项 + 中文解析） |
+| 生词标注       | 每篇文章自动标注 5 个核心生词（含音标 + 中文释义）    |
+| 句子级翻译     | 段落级中英对照翻译（JSON 格式），用于逐句对照阅读     |
+
+### 17.3 批量策略
+
+- 每批次合并 2 篇文章为一次 API 调用，减少请求开销
+- System prompt 固定为英文教学助手角色，要求纯 JSON 输出
+- API Key 通过 `DEEPSEEK_API_KEY` 环境变量配置
+- 依赖：`openai` SDK（使用 DeepSeek 的 baseURL）
+
+### 17.4 使用场景
+
+- 内容抓取管线中，从外部源拉取的原始文章经 AI 加工后入库
+- Admin 后台的「重新翻译」功能，可对已有文章重新生成句子级翻译
+
+---
+
+## 十八、内容抓取管线
+
+### 18.1 概述
+
+通过统一的 `ContentFetcher` 接口，从多个外部英文内容源自动拉取文章，经 DeepSeek AI 加工后写入数据库。
+
+### 18.2 内容源列表
+
+| 抓取器             | 来源                  | 依赖            | 说明                     |
+| ------------------ | --------------------- | --------------- | ------------------------ |
+| `breaking-news.ts` | Breaking News English | rss-parser      | RSS 订阅，按难度分级     |
+| `chinadaily.ts`    | China Daily           | axios + cheerio | 网页抓取，双语新闻       |
+| `gutenberg.ts`     | Project Gutenberg     | axios           | 公版英文书籍节选         |
+| `newsapi.ts`       | NewsAPI               | axios           | 英文新闻 API，需 API Key |
+| `wikipedia.ts`     | Wikipedia             | axios           | 百科文章摘要             |
+
+### 18.3 Pipeline 流程
+
+```
+外部源抓取 → ContentFetcher.fetch(level, count) → RawArticle[]
+    → DeepSeekService.enrichBatch() → EnrichedArticle[]
+    → ArticleImportService.insertArticle() → 数据库
+```
+
+### 18.4 配置
+
+- `NEWSAPI_KEY`：NewsAPI 的 API Key（可选，不填则跳过 NewsAPI 源）
+- 可通过 Admin 接口手动触发管线，指定各年级拉取数量和内容源
+
+---
+
+## 十九、定时调度器
+
+### 19.1 概述
+
+通过 `node-cron` 实现定时任务，每天自动执行文章抓取管线。
+
+### 19.2 调度规则
+
+- 时间：每天上午 8:00（服务器时间）
+- Cron 表达式：`0 8 * * *`
+- 开关：通过 `CRON_ENABLED` 环境变量控制（`true`/`false`）
+- 开发环境建议关闭
+
+### 19.3 实现
+
+`scheduler.ts` 在服务启动时注册定时任务，调用 `ArticleImportService.runPipeline()` 执行完整的文章抓取→AI 加工→入库流程，记录插入/跳过/失败数量。
+
+---
+
+## 二十、Swagger API 文档
+
+### 20.1 概述
+
+使用 `swagger-jsdoc` + `swagger-ui-express` 自动生成 OpenAPI 3.0 文档，Admin 路由已通过 JSDoc 注解标注。
+
+### 20.2 配置
+
+- 文档定义：`packages/backend/src/utils/swagger.ts`
+- 路由扫描：`./src/routes/*.ts`
+- 访问路径：开发环境 `http://localhost:3000/api-docs`
+- 认证方式：Bearer JWT（在 Swagger UI 中配置）
+
+---
+
+## 二十一、日志系统
+
+### 21.1 概述
+
+使用 Winston 实现结构化日志，支持日志级别配置。
+
+### 21.2 配置
+
+- 日志级别：通过 `LOG_LEVEL` 环境变量控制（`error` / `warn` / `info` / `debug`）
+- 开发环境：带颜色、时间戳的可读格式
+- 生产环境：JSON 格式（便于日志采集）
+- 暂仅输出到 Console，生产环境可扩展 File transport
+
+---
+
+## 二十二、环境变量
+
+### 22.1 完整环境变量列表
+
+| 变量             | 必填 | 默认值                 | 说明                                     |
+| ---------------- | ---- | ---------------------- | ---------------------------------------- |
+| PORT             | 否   | 3000                   | 服务端口                                 |
+| DB_TYPE          | 否   | sqlite                 | 数据库类型（sqlite / mysql / mongodb）   |
+| DB_PATH          | 否   | ./data/english-read.db | SQLite 数据库文件路径                    |
+| JWT_SECRET       | 是   | —                      | JWT 签名密钥（生产环境必须更换）         |
+| LOG_LEVEL        | 否   | info                   | 日志级别（error / warn / info / debug）  |
+| DEEPSEEK_API_KEY | 否   | —                      | DeepSeek API Key（不填则 AI 功能禁用）   |
+| NEWSAPI_KEY      | 否   | —                      | NewsAPI Key（不填则跳过 NewsAPI 内容源） |
+| CRON_ENABLED     | 否   | false                  | 是否启用定时文章拉取（true / false）     |
+
+### 22.2 配置文件
+
+- `.env`：实际环境变量（不提交到 Git）
+- `.env.example`：环境变量模板（提交到 Git，供其他开发者参考）
